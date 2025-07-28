@@ -1,21 +1,12 @@
 import React from "react";
 import Playlist from "../Playlist/Playlist";
-import cls from "./Centerblock.module.css";
+import cls from "./centerblock.module.css";
+import Search from "../Search/Search";
 
 const Centerblock = () => {
   return (
     <div className={cls.centerblock}>
-      <div className={cls.centerblock__search}>
-        <svg className={cls.search__svg}>
-          <use xlinkHref="/img/icon/sprite.svg#icon-search"></use>
-        </svg>
-        <input
-          className={cls.search__text}
-          type="search"
-          placeholder="Поиск"
-          name="search"
-        />
-      </div>
+      <Search />
       <h2 className={cls.centerblock__h2}>Треки</h2>
       <div className={cls.centerblock__filter}>
         <div className={cls.filter__title}>Искать по:</div>
