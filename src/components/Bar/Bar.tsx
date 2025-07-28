@@ -1,5 +1,5 @@
-import React from "react";
-import cls from "./Bar.module.css";
+import cls from "./bar.module.css";
+import Link from "next/link";
 
 const Bar = () => {
   return (
@@ -44,14 +44,14 @@ const Bar = () => {
                   </svg>
                 </div>
                 <div className={cls.trackPlay__author}>
-                  <a className={cls.trackPlay__authorLink} href="">
+                  <Link className={cls.trackPlay__authorLink} href="">
                     Ты та...
-                  </a>
+                  </Link>
                 </div>
                 <div className={cls.trackPlay__album}>
-                  <a className={cls.trackPlay__albumLink} href="">
+                  <Link className={cls.trackPlay__albumLink} href="">
                     Баста
-                  </a>
+                  </Link>
                 </div>
               </div>
 
