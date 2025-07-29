@@ -1,6 +1,5 @@
 import { data } from "@/data";
 import cls from "./playlist.module.css";
-import Link from "next/link";
 import Track from "../Track/Track";
 
 const Playlist = () => {
