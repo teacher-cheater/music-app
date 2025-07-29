@@ -1,5 +1,6 @@
 import Link from "next/link";
 import cls from "./track.module.css";
+import { useAppSelector } from "@/store/store";
 
 interface TrackProps {
   track: {
@@ -22,6 +23,9 @@ const formatDuration = (seconds: number): string => {
 
 const Track: React.FC<TrackProps> = ({ track }) => {
   const { name, author, album, duration_in_seconds } = track;
+  const trackState = useAppSelector(state => state.tracks);
+  console.log(trackState);
+
   return (
     <div className={cls.playlist__item}>
       <div className={cls.playlist__track}>
