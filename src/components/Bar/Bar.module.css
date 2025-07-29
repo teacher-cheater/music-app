@@ -188,6 +188,13 @@
     grid-area: image;
 }
 
+.trackPlay__active{
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    background-color: #B672FF;
+}
+
 .trackPlay__svg {
     width: 18px;
     height: 17px;
@@ -323,3 +330,4 @@
     position: relative;
     margin-top: -7px;
 }
+

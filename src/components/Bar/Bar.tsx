@@ -1,9 +1,36 @@
+"use client";
+
 import cls from "./bar.module.css";
 import Link from "next/link";
+import { useAppDispatch, useAppSelector } from "@/store/store";
+import { useRef } from "react";
+import { setIsPlay } from "@/store/features/trackSlice";
 
 const Bar = () => {
+  const currentTrack = useAppSelector(state => state.tracks.currentTrack);
+  const dispatch = useAppDispatch();
+
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  if (!currentTrack) return;
+
+  const playTrack = () => {
+    if (audioRef.current) {
+      audioRef.current.play();
+      dispatch(setIsPlay(true));
+    }
+  };
+
+  const pauseTrack = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      dispatch(setIsPlay(false));
+    }
+  };
+
   return (
     <div className={cls.bar}>
+      <audio ref={audioRef} src={currentTrack?.track_file} controls />
       <div className={cls.bar__content}>
         <div className={cls.bar__playerProgress}></div>
         <div className={cls.bar__playerBlock}>
@@ -14,7 +41,10 @@ const Bar = () => {
                   <use xlinkHref="/img/icon/sprite.svg#icon-prev"></use>
                 </svg>
               </div>
-              <div className={`${cls.player__btnPlay} ${cls.btn}`}>
+              <div
+                onClick={() => playTrack()}
+                className={`${cls.player__btnPlay} ${cls.btn}`}
+              >
                 <svg className={cls.player__btnPlaySvg}>
                   <use xlinkHref="/img/icon/sprite.svg#icon-play"></use>
                 </svg>
@@ -45,12 +75,12 @@ const Bar = () => {
                 </div>
                 <div className={cls.trackPlay__author}>
                   <Link className={cls.trackPlay__authorLink} href="">
-                    Ты та...
+                    {currentTrack?.name}
                   </Link>
                 </div>
                 <div className={cls.trackPlay__album}>
                   <Link className={cls.trackPlay__albumLink} href="">
-                    Баста
+                    {currentTrack?.author}
                   </Link>
                 </div>
               </div>

@@ -1,18 +1,13 @@
+"use client";
+
 import Link from "next/link";
 import cls from "./track.module.css";
-import { useAppSelector } from "@/store/store";
+import { useAppDispatch } from "@/store/store";
+import { TrackType } from "@/sharedtypes/sharedTypes";
+import { setCurrentTrack } from "@/store/features/trackSlice";
 
 interface TrackProps {
-  track: {
-    _id: number;
-    name: string;
-    author: string;
-    album: string;
-    duration_in_seconds: number;
-    logo?: string | null;
-    track_file?: string;
-    stared_user?: number[];
-  };
+  track: TrackType;
 }
 
 const formatDuration = (seconds: number): string => {
@@ -23,11 +18,13 @@ const formatDuration = (seconds: number): string => {
 
 const Track: React.FC<TrackProps> = ({ track }) => {
   const { name, author, album, duration_in_seconds } = track;
-  const trackState = useAppSelector(state => state.tracks);
-  console.log(trackState);
+  const dispatch = useAppDispatch();
+  const onClickTrack = () => {
+    dispatch(setCurrentTrack(track));
+  };
 
   return (
-    <div className={cls.playlist__item}>
+    <div className={cls.playlist__item} onClick={() => onClickTrack()}>
       <div className={cls.playlist__track}>
         <div className={cls.track__title}>
           <div className={cls.track__titleImage}>
