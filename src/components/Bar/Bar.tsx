@@ -7,24 +7,22 @@ import { useRef } from "react";
 import { setIsPlay } from "@/store/features/trackSlice";
 
 const Bar = () => {
-  const currentTrack = useAppSelector(state => state.tracks.currentTrack);
-  const dispatch = useAppDispatch();
-
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const currentTrack = useAppSelector(state => state.tracks.currentTrack);
+  const isPlay = useAppSelector(state => state.tracks.isPlay);
+
+  const dispatch = useAppDispatch();
 
   if (!currentTrack) return;
 
-  const playTrack = () => {
-    if (audioRef.current) {
-      audioRef.current.play();
-      dispatch(setIsPlay(true));
-    }
-  };
-
-  const pauseTrack = () => {
-    if (audioRef.current) {
-      audioRef.current.pause();
+  const onTogglePlayTrack = () => {
+    if (isPlay) {
+      audioRef.current?.pause();
       dispatch(setIsPlay(false));
+    } else {
+      audioRef.current?.play();
+      dispatch(setIsPlay(true));
     }
   };
 
@@ -42,8 +40,9 @@ const Bar = () => {
                 </svg>
               </div>
               <div
-                onClick={() => playTrack()}
+                onClick={() => onTogglePlayTrack()}
                 className={`${cls.player__btnPlay} ${cls.btn}`}
+                // {isPlay ? className={"trackPlay__active"}}
               >
                 <svg className={cls.player__btnPlaySvg}>
                   <use xlinkHref="/img/icon/sprite.svg#icon-play"></use>

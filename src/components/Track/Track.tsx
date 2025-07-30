@@ -5,16 +5,11 @@ import cls from "./track.module.css";
 import { useAppDispatch } from "@/store/store";
 import { TrackType } from "@/sharedtypes/sharedTypes";
 import { setCurrentTrack } from "@/store/features/trackSlice";
+import { formatDuration } from "@/utils/helpers";
 
 interface TrackProps {
   track: TrackType;
 }
-
-const formatDuration = (seconds: number): string => {
-  const mins = Math.floor(seconds / 60);
-  const secs = seconds % 60;
-  return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
-};
 
 const Track: React.FC<TrackProps> = ({ track }) => {
   const { name, author, album, duration_in_seconds } = track;
