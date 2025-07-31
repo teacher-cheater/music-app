@@ -6,7 +6,7 @@ const Playlist = () => {
   return (
     <div className={cls.content__playlist}>
       {data.map(track => (
-        <Track track={track} key={track._id} />
+        <Track track={track} key={track._id} playlist={data} />
       ))}
     </div>
   );

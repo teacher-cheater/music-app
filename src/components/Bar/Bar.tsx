@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { setIsPlay } from "@/store/features/trackSlice";
-import { getTimepanel } from "@/utils/helpers";
 import TrackInfo from "../TrackInfo/TrackInfo";
 import ProgressBar from "../ProgressBar/ProgressBar";
 import AudioPlayer from "../AudioPlayer/AudioPlayer";

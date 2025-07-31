@@ -4,14 +4,19 @@ import Link from "next/link";
 import cls from "./track.module.css";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { TrackType } from "@/sharedtypes/sharedTypes";
-import { setCurrentTrack, setIsPlay } from "@/store/features/trackSlice";
+import {
+  setCurrentPlayList,
+  setCurrentTrack,
+  setIsPlay,
+} from "@/store/features/trackSlice";
 import { formatDuration } from "@/utils/helpers";
 
 interface TrackProps {
   track: TrackType;
+  playlist: TrackType[];
 }
 
-const Track = ({ track }: TrackProps) => {
+const Track = ({ track, playlist }: TrackProps) => {
   const { name, author, album, duration_in_seconds } = track;
   const currentTrack = useAppSelector(state => state.tracks.currentTrack);
   const isPlay = useAppSelector(state => state.tracks.isPlay);
@@ -22,10 +27,11 @@ const Track = ({ track }: TrackProps) => {
   const onClickTrack = () => {
     if (currentTrack?._id === track._id) {
       dispatch(setIsPlay(!isPlay));
-    } else {
-      dispatch(setCurrentTrack(track));
-      dispatch(setIsPlay(true));
+      return;
     }
+    dispatch(setCurrentTrack(track));
+    dispatch(setIsPlay(true));
+    dispatch(setCurrentPlayList(playlist));
   };
 
   return (

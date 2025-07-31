@@ -17,7 +17,7 @@ const AudioPlayer = ({
       audioRef.current.volume = volume;
     }
   }, [volume]);
-  console.log(volume);
+
   return (
     <div className={cls.volume__content}>
       <div className={cls.volume__image}>
