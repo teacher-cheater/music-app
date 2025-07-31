@@ -207,67 +207,6 @@
     stroke: #696969;
 }
 
-.volume__content {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    -webkit-box-pack: end;
-    -ms-flex-pack: end;
-    justify-content: end;
-}
-
-.volume__image {
-    width: 13px;
-    height: 18px;
-    margin-right: 17px;
-}
-
-.volume__svg {
-    width: 13px;
-    height: 18px;
-    fill: transparent;
-}
-
-.volume__progress {
-    width: 109px;
-    display: flex;
-    align-items: center;
-}
-
-.volume__progressLine {
-    width: 100%;
-    height: 2px;
-    appearance: none;
-    background: #797979;
-    border-radius: 5px;
-    outline: none;
-    cursor: pointer;
-}
-
-.volume__progressLine::-webkit-slider-runnable-track {
-    height: 2px;
-    background: #797979;
-    border-radius: 5px;
-}
-
-.volume__progressLine::-webkit-slider-thumb {
-    appearance: none;
-    width: 16px;
-    height: 16px;
-    background: #1a1a1a;
-    border: 2px solid white;
-    border-radius: 50%;
-    position: relative;
-    margin-top: -7px;
-}
-
 ._active {
     stroke: white;
 }

@@ -8,6 +8,7 @@ import { setIsPlay } from "@/store/features/trackSlice";
 import { getTimepanel } from "@/utils/helpers";
 import TrackInfo from "../TrackInfo/TrackInfo";
 import ProgressBar from "../ProgressBar/ProgressBar";
+import AudioPlayer from "../AudioPlayer/AudioPlayer";
 
 const Bar = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -47,10 +48,12 @@ const Bar = () => {
   };
 
   const onLoadedMetadata = () => {
-    if (audioRef.current) {
-      audioRef.current.play();
-      dispatch(setIsPlay(true));
+    if (!audioRef.current) {
+      return;
     }
+    audioRef.current.play();
+    dispatch(setIsPlay(true));
+    setIsLoadedTtrack(true);
   };
 
   const handleVolumeChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -126,7 +129,7 @@ const Bar = () => {
                     isLoop ? cls._active : ""
                   }`}
                 >
-                  <use xlinkHref="/img/icon/sprite.svg#icon-repeat"></use>
+                  <use xlinkHref="/img/icon/sprite.svg#icon-repeat" />
                 </svg>
               </div>
               <div className={`${cls.player__btnShuffle} ${cls.btnIcon}`}>
@@ -153,21 +156,11 @@ const Bar = () => {
             </div>
           </div>
           <div className={cls.bar__volumeBlock}>
-            <div className={cls.volume__content}>
-              <div className={cls.volume__image}>
-                <svg className={cls.volume__svg}>
-                  <use xlinkHref="/img/icon/sprite.svg#icon-volume" />
-                </svg>
-              </div>
-              <div className={`${cls.volume__progress} ${cls.btn}`}>
-                <input
-                  className={`${cls.volume__progressLine} ${cls.btn}`}
-                  type="range"
-                  name="range"
-                  onChange={e => handleVolumeChange(e)}
-                />
-              </div>
-            </div>
+            <AudioPlayer
+              audioRef={audioRef}
+              volume={volume}
+              handleVolumeChange={handleVolumeChange}
+            />
           </div>
         </div>
       </div>
