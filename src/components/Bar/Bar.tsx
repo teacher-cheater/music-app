@@ -1,10 +1,13 @@
 "use client";
 
 import cls from "./bar.module.css";
-import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
-import { setIsPlay } from "@/store/features/trackSlice";
+import {
+  setIsPlay,
+  setNextTrack,
+  setPrevTrack,
+} from "@/store/features/trackSlice";
 import TrackInfo from "../TrackInfo/TrackInfo";
 import ProgressBar from "../ProgressBar/ProgressBar";
 import AudioPlayer from "../AudioPlayer/AudioPlayer";
@@ -72,6 +75,13 @@ const Bar = () => {
     audioRef.current.currentTime = inputTime;
   };
 
+  const onNextTrack = () => {
+    dispatch(setNextTrack());
+  };
+  const onPrevtTrack = () => {
+    dispatch(setPrevTrack());
+  };
+
   return (
     <div className={cls.bar}>
       <audio
@@ -95,9 +105,12 @@ const Bar = () => {
         <div className={cls.bar__playerBlock}>
           <div className={cls.bar__player}>
             <div className={cls.player__controls}>
-              <div className={cls.player__btnPrev}>
+              <div
+                onClick={() => onPrevtTrack()}
+                className={cls.player__btnPrev}
+              >
                 <svg className={cls.player__btnPrevSvg}>
-                  <use xlinkHref="/img/icon/sprite.svg#icon-prev"></use>
+                  <use xlinkHref="/img/icon/sprite.svg#icon-prev" />
                 </svg>
               </div>
               <div
@@ -114,9 +127,12 @@ const Bar = () => {
                   </svg>
                 )}
               </div>
-              <div className={cls.player__btnNext}>
+              <div
+                onClick={() => onNextTrack()}
+                className={cls.player__btnNext}
+              >
                 <svg className={cls.player__btnNextSvg}>
-                  <use xlinkHref="/img/icon/sprite.svg#icon-next"></use>
+                  <use xlinkHref="/img/icon/sprite.svg#icon-next" />
                 </svg>
               </div>
               <div
@@ -133,7 +149,7 @@ const Bar = () => {
               </div>
               <div className={`${cls.player__btnShuffle} ${cls.btnIcon}`}>
                 <svg className={cls.player__btnShuffleSvg}>
-                  <use xlinkHref="/img/icon/sprite.svg#icon-shuffle"></use>
+                  <use xlinkHref="/img/icon/sprite.svg#icon-shuffle" />
                 </svg>
               </div>
             </div>
