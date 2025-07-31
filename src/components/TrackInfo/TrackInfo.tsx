@@ -5,7 +5,6 @@ import { TrackType } from "@/sharedtypes/sharedTypes";
 interface TrackInfoProps {
   track?: TrackType;
 }
-
 const TrackInfo = ({ track }: TrackInfoProps) => {
   return (
     <div className={cls.trackPlay__contain}>

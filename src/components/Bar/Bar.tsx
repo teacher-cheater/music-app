@@ -83,11 +83,16 @@ const Bar = () => {
               <div
                 onClick={() => onTogglePlayTrack()}
                 className={`${cls.player__btnPlay} ${cls.btn}`}
-                // {isPlay ? className={"trackPlay__active"}}
               >
-                <svg className={cls.player__btnPlaySvg}>
-                  <use xlinkHref="/img/icon/sprite.svg#icon-play"></use>
-                </svg>
+                {isPlay ? (
+                  <svg className={cls.player__btnPlaySvg}>
+                    <use xlinkHref="/img/icon/sprite.svg#icon-pause" />
+                  </svg>
+                ) : (
+                  <svg className={cls.player__btnPlaySvg}>
+                    <use xlinkHref="/img/icon/sprite.svg#icon-play" />
+                  </svg>
+                )}
               </div>
               <div className={cls.player__btnNext}>
                 <svg className={cls.player__btnNextSvg}>

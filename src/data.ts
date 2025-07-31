@@ -9,8 +9,7 @@ export const data: TrackType[] = [
     genre: ["Классическая музыка"],
     album: "Chase",
     logo: null,
-    track_file:
-      "https://skypro-music-api.skyeng.tech/media/music_files/Alexander_Nakarada_-_Chase.mp3",
+    track_file: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
     stared_user: [],
     duration_in_seconds: 205,
   },
