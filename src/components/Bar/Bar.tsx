@@ -3,10 +3,11 @@
 import cls from "./bar.module.css";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/store/store";
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { setIsPlay } from "@/store/features/trackSlice";
 import { getTimepanel } from "@/utils/helpers";
 import TrackInfo from "../TrackInfo/TrackInfo";
+import ProgressBar from "../ProgressBar/ProgressBar";
 
 const Bar = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -19,6 +20,11 @@ const Bar = () => {
   const [isLoop, setIsLoop] = useState(false);
   const [volume, setVolume] = useState(0.3);
   const [isLoadedTtrack, setIsLoadedTtrack] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+
+  useEffect(() => {
+    setIsLoadedTtrack(false);
+  }, [currentTrack]);
 
   if (!currentTrack) return;
 
@@ -37,12 +43,10 @@ const Bar = () => {
   };
 
   const onTimeUpdate = () => {
-    if (audioRef.current)
-      console.log(audioRef.current.currentTime, audioRef.current.duration);
+    if (audioRef.current) setCurrentTime(audioRef.current.currentTime);
   };
 
   const onLoadedMetadata = () => {
-    console.log("start");
     if (audioRef.current) {
       audioRef.current.play();
       dispatch(setIsPlay(true));
@@ -58,6 +62,14 @@ const Bar = () => {
     }
   };
 
+  const onChangeProgress = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!audioRef.current) {
+      return;
+    }
+    const inputTime = Number(e.target.value);
+    audioRef.current.currentTime = inputTime;
+  };
+
   return (
     <div className={cls.bar}>
       <audio
@@ -71,7 +83,13 @@ const Bar = () => {
         onEnded={() => console.log("onEnded")}
       />
       <div className={cls.bar__content}>
-        <div className={cls.bar__playerProgress}></div>
+        <ProgressBar
+          max={Number(audioRef.current?.duration) || 0}
+          step={0.1}
+          readOnly={!isLoadedTtrack}
+          value={currentTime}
+          onChange={onChangeProgress}
+        />
         <div className={cls.bar__playerBlock}>
           <div className={cls.bar__player}>
             <div className={cls.player__controls}>

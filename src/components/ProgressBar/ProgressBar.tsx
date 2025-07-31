@@ -1,4 +1,4 @@
-import cls from './progressBar.module.css'
+import cls from "./progressBar.module.css";
 
 interface progressBarProp {
   max: number;
@@ -17,13 +17,13 @@ const ProgressBar = ({
 }: progressBarProp) => {
   return (
     <input
-      className={cls.styledProgressInput} // Применение стилей к ползунку
-      type="range" // Тип элемента - ползунок
-      min="0" // Минимальное значение ползунка
-      max={max} // Максимальное значение, зависит от длительности аудио
-      value={value} // Текущее значение ползунка
-      step={step} // Шаг изменения значения
-      onChange={onChange} // Обработчик события изменения
+      className={cls.styledProgressInput}
+      type="range"
+      min="0"
+      max={max}
+      value={value}
+      step={step}
+      onChange={onChange}
       readOnly={readOnly}
     />
   );
