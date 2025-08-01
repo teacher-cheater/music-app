@@ -210,3 +210,9 @@
 ._active {
     stroke: white;
 }
+
+.player__btnNext.disabled svg {
+    filter: grayscale(100%);
+    opacity: 0.5;
+    cursor: auto;
+}

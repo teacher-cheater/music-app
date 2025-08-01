@@ -5,12 +5,14 @@ type initialStateType = {
   currentTrack: TrackType | null;
   isPlay: boolean;
   playList: TrackType[];
+  curIndex: number;
 };
 
 const initialState: initialStateType = {
   currentTrack: null,
   isPlay: false,
   playList: [],
+  curIndex: -1,
 };
 
 const trackSlice = createSlice({
@@ -28,21 +30,25 @@ const trackSlice = createSlice({
     },
     setNextTrack: state => {
       if (state.currentTrack) {
-        const curIndex = state.playList.findIndex(
+        state.curIndex = state.playList.findIndex(
           elem => elem._id === state.currentTrack?._id
         );
-        if (curIndex === -1 || curIndex === state.playList.length - 1) return;
-        const nextIndexTrack = curIndex + 1;
+        if (
+          state.curIndex === -1 ||
+          state.curIndex === state.playList.length - 1
+        )
+          return;
+        const nextIndexTrack = state.curIndex + 1;
         state.currentTrack = state.playList[nextIndexTrack];
       }
     },
     setPrevTrack: state => {
       if (state.currentTrack) {
-        const curIndex = state.playList.findIndex(
+        state.curIndex = state.playList.findIndex(
           elem => elem._id === state.currentTrack?._id
         );
-        if (curIndex <= 0) return;
-        const prevIndexTrack = curIndex - 1;
+        if (state.curIndex <= 0) return;
+        const prevIndexTrack = state.curIndex - 1;
         state.currentTrack = state.playList[prevIndexTrack];
       }
     },

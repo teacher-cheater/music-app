@@ -17,6 +17,11 @@ const Bar = () => {
 
   const currentTrack = useAppSelector(state => state.tracks.currentTrack);
   const isPlay = useAppSelector(state => state.tracks.isPlay);
+  const currentPlaylist = useAppSelector(state => state.tracks.playList);
+  const curIndex = useAppSelector(state => state.tracks.curIndex);
+  
+  console.log("currentTrack", currentTrack);
+  console.log("curIndex", curIndex);
 
   const dispatch = useAppDispatch();
 
@@ -50,12 +55,11 @@ const Bar = () => {
   };
 
   const onLoadedMetadata = () => {
-    if (!audioRef.current) {
-      return;
+    if (audioRef.current) {
+      audioRef.current.play();
+      dispatch(setIsPlay(true));
+      setIsLoadedTtrack(true);
     }
-    audioRef.current.play();
-    dispatch(setIsPlay(true));
-    setIsLoadedTtrack(true);
   };
 
   const handleVolumeChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -68,18 +72,31 @@ const Bar = () => {
   };
 
   const onChangeProgress = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!audioRef.current) {
-      return;
+    if (audioRef.current) {
+      const inputTime = Number(e.target.value);
+      audioRef.current.currentTime = inputTime;
     }
-    const inputTime = Number(e.target.value);
-    audioRef.current.currentTime = inputTime;
   };
 
   const onNextTrack = () => {
     dispatch(setNextTrack());
   };
+
   const onPrevtTrack = () => {
     dispatch(setPrevTrack());
+  };
+
+  const onEnded = () => {
+    if (isLoop) {
+      audioRef.current?.play();
+      return;
+    }
+
+    if (curIndex === -1 || curIndex === currentPlaylist.length - 1) {
+      onNextTrack();
+    } else {
+      dispatch(setIsPlay(false));
+    }
   };
 
   return (
@@ -92,7 +109,7 @@ const Bar = () => {
         loop={isLoop}
         onTimeUpdate={() => onTimeUpdate()}
         onLoadedMetadata={() => onLoadedMetadata()}
-        onEnded={() => console.log("onEnded")}
+        onEnded={() => onEnded()}
       />
       <div className={cls.bar__content}>
         <ProgressBar
