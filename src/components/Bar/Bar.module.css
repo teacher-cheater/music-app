@@ -18,6 +18,21 @@
     -webkit-box-direction: normal;
     -ms-flex-direction: column;
     flex-direction: column;
+    position: relative;
+}
+
+.bar__loadingTrack {
+    position: absolute;
+    top: -25px;
+    left: 10px;
+    color: white;
+}
+
+.bar__currentTrackTime {
+    position: absolute;
+    top: -25px;
+    right: 10px;
+    color: white;
 }
 
 .bar__playerProgress {

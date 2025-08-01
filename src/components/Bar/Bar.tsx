@@ -11,6 +11,7 @@ import {
 import TrackInfo from "../TrackInfo/TrackInfo";
 import ProgressBar from "../ProgressBar/ProgressBar";
 import AudioPlayer from "../AudioPlayer/AudioPlayer";
+import { getTimepanel } from "@/utils/helpers";
 
 const Bar = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -19,9 +20,6 @@ const Bar = () => {
   const isPlay = useAppSelector(state => state.tracks.isPlay);
   const currentPlaylist = useAppSelector(state => state.tracks.playList);
   const curIndex = useAppSelector(state => state.tracks.curIndex);
-  
-  console.log("currentTrack", currentTrack);
-  console.log("curIndex", curIndex);
 
   const dispatch = useAppDispatch();
 
@@ -29,6 +27,7 @@ const Bar = () => {
   const [volume, setVolume] = useState(0.3);
   const [isLoadedTtrack, setIsLoadedTtrack] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
+  console.log("isLoadedTtrack", isLoadedTtrack);
 
   useEffect(() => {
     setIsLoadedTtrack(false);
@@ -99,6 +98,10 @@ const Bar = () => {
     }
   };
 
+  const showTrackTime = () => {
+    return getTimepanel(currentTime, currentTrack?.duration_in_seconds);
+  };
+
   return (
     <div className={cls.bar}>
       <audio
@@ -112,6 +115,12 @@ const Bar = () => {
         onEnded={() => onEnded()}
       />
       <div className={cls.bar__content}>
+        {isLoadedTtrack ? (
+          ""
+        ) : (
+          <div className={cls.bar__loadingTrack}>Загрузка трека...</div>
+        )}
+        <div className={cls.bar__currentTrackTime}>{showTrackTime()}</div>
         <ProgressBar
           max={Number(audioRef.current?.duration) || 0}
           step={0.1}
