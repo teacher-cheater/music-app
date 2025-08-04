@@ -1,8 +1,7 @@
 import cls from "./main.module.css";
 import Link from "next/link";
-import Image from "next/image";
-import Playlist from "@/components/Playlist/Playlist";
 import Centerblock from "../Centerblock/Centerblock";
+import Sidebar from "../Sidebar/Sidebar";
 
 const Main = () => {
   return (
@@ -44,53 +43,7 @@ const Main = () => {
         </div>
       </nav>
       <Centerblock />
-      <div className={cls.main__sidebar}>
-        <div className={cls.sidebar__personal}>
-          <p className={cls.sidebar__personalName}>Sergey.Ivanov</p>
-          <div className={cls.sidebar__icon}>
-            <svg>
-              <use xlinkHref="/img/icon/sprite.svg#logout"></use>
-            </svg>
-          </div>
-        </div>
-        <div className={cls.sidebar__block}>
-          <div className={cls.sidebar__list}>
-            <div className={cls.sidebar__item}>
-              <Link className={cls.sidebar__link} href="#">
-                <Image
-                  className={cls.sidebar__img}
-                  src="/img/playlist01.png"
-                  alt="day's playlist"
-                  width={250}
-                  height={170}
-                />
-              </Link>
-            </div>
-            <div className={cls.sidebar__item}>
-              <Link className={cls.sidebar__link} href="#">
-                <Image
-                  className={cls.sidebar__img}
-                  src="/img/playlist02.png"
-                  alt="day's playlist"
-                  width={250}
-                  height={170}
-                />
-              </Link>
-            </div>
-            <div className={cls.sidebar__item}>
-              <Link className={cls.sidebar__link} href="#">
-                <Image
-                  className={cls.sidebar__img}
-                  src="/img/playlist03.png"
-                  alt="day's playlist"
-                  width={250}
-                  height={170}
-                />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Sidebar />
     </main>
   );
 };
