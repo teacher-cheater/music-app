@@ -23,7 +23,7 @@ const Signin = () => {
       />
       <div className={cls.errorContainer}></div>
       <button className={cls.modal__btnEnter}>Войти</button>
-      <Link href={"/auth/sigup"} className={cls.modal__btnSignup}>
+      <Link href={"/auth/signup"} className={cls.modal__btnSignup}>
         Зарегистрироваться
       </Link>
     </>

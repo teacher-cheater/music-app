@@ -27,7 +27,6 @@ const Bar = () => {
   const [volume, setVolume] = useState(0.3);
   const [isLoadedTtrack, setIsLoadedTtrack] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
-  console.log("isLoadedTtrack", isLoadedTtrack);
 
   useEffect(() => {
     setIsLoadedTtrack(false);

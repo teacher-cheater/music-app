@@ -27,7 +27,7 @@ export default function Sidebar() {
       <div className={cls.sidebar__block}>
         <div className={cls.sidebar__list}>
           {playlist.map(link => (
-            <div className={cls.sidebar__item}>
+            <div className={cls.sidebar__item} key={link.id}>
               <Link
                 className={cls.sidebar__link}
                 href={`/music/category/${link.id}`}
