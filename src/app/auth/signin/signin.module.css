@@ -1,5 +1,3 @@
-
-
 .modal__btnEnter:hover {
     background-color: #3f007d;
 }
@@ -118,6 +116,18 @@
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
+}
+
+.disabledLink {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.errorContainer {
+    color: red;
+    margin: 10px 0;
+    text-align: center;
 }
 
 .login {

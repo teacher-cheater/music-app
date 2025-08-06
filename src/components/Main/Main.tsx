@@ -19,10 +19,8 @@ const Main = () => {
     getTracks()
       .then(res => {
         setAllTracks(res);
-        setIsLoading(false);
       })
       .catch(error => {
-        setIsLoading(false);
         if (error instanceof AxiosError) {
           if (error.response) {
             setError(error.response.data);
