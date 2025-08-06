@@ -1,15 +1,16 @@
 import Search from "../Search/Search";
 import FilterButtons from "../Filter/FilterButtons";
-import Playlist from "../Playlist/Playlist";
 import cls from "./centerblock.module.css";
 import { TrackType } from "@/sharedtypes/sharedTypes";
+import Track from "../Track/Track";
 
 interface CenterblockProps {
   allTracks: TrackType[];
   isLoading: boolean;
+  errorRes: null | string;
 }
 
-const Centerblock = ({ allTracks, isLoading }: CenterblockProps) => {
+const Centerblock = ({ allTracks, isLoading, errorRes }: CenterblockProps) => {
   return (
     <div className={cls.centerblock}>
       <Search />
@@ -28,7 +29,15 @@ const Centerblock = ({ allTracks, isLoading }: CenterblockProps) => {
             </svg>
           </div>
         </div>
-        <Playlist allTracks={allTracks} isLoading={isLoading} />
+        <div className={cls.content__playlist}>
+          {errorRes
+            ? errorRes
+            : isLoading
+            ? "Загрузка..."
+            : allTracks.map(track => (
+                <Track track={track} key={track._id} playlist={allTracks} />
+              ))}
+        </div>
       </div>
     </div>
   );
