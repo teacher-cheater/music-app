@@ -96,7 +96,7 @@ const Signup = () => {
         value={email}
         onChange={e => onChangeEmail(e)}
         disabled={isLoading}
-      />
+      /> 
       <input
         className={`${cls.modal__input} ${cls.login}`}
         type="text"

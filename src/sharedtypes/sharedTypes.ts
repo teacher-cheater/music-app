@@ -10,3 +10,10 @@ export interface TrackType {
   track_file: string;
   stared_user: number[];
 }
+
+export interface CategoryType {
+  _id: number;
+  name: string;
+  items: number[];
+  owner: number[];
+}

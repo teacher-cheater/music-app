@@ -1,15 +1,16 @@
-import Bar from "@/components/Bar/Bar";
-import Main from "@/components/Main/Main";
-import cls from "./page.module.css";
+"use client";
+import { useAppSelector } from "@/store/store";
+import Centerblock from "@/components/Centerblock/Centerblock";
 
 export default function Home() {
+  const { fetchError, fetchIsLoading, allTracks } = useAppSelector(
+    state => state.tracks
+  );
   return (
-    <div className={cls.wrapper}>
-      <div className={cls.container}>
-        <Main />
-        <Bar />
-        <footer className="footer"></footer>
-      </div>
-    </div>
+    <Centerblock
+      allTracks={allTracks}
+      isLoading={fetchIsLoading}
+      errorRes={fetchError}
+    />
   );
 }
