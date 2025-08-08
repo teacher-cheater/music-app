@@ -10,16 +10,12 @@ import { useEffect, useState } from "react";
 
 const CategoryPage = () => {
   const params = useParams<{ id: string }>();
-  const { allTracks, fetchIsLoading, fetchError } = useAppSelector(
-    state => state.tracks
-  );
+  const { allTracks, fetchIsLoading } = useAppSelector(state => state.tracks);
   const [isLoading, setIsLoading] = useState(true);
   const [errorRes, setErrorRes] = useState<string | null>(null);
   const [title, setTitle] = useState<string>("");
   const [tracks, setTracks] = useState<TrackType[]>([]);
   const id = params.id;
-
-  console.log("id", params);
 
   useEffect(() => {
     setIsLoading(true);
@@ -38,7 +34,7 @@ const CategoryPage = () => {
             if (error.response) {
               setErrorRes(error.response.data);
             } else if (error.request) {
-              setErrorRes("Ошибка");
+              setErrorRes("Упс, ошибка");
             }
           }
         })

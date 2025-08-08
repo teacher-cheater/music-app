@@ -6,10 +6,15 @@ import { authUser, getTokens } from "@/services/auth/authApi";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/store/store";
-import { setUsername } from "@/store/features/authSlice";
+import {
+  setAccessToken,
+  setRefreshToken,
+  setUsername,
+} from "@/store/features/authSlice";
 
 const Signin = () => {
   const dispatch = useAppDispatch();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -47,10 +52,11 @@ const Signin = () => {
     authUser({ email, password })
       .then(() => {
         dispatch(setUsername(email));
-        getTokens({ email, password });
+        return getTokens({ email, password });
       })
       .then(res => {
-        console.log(res);
+        dispatch(setAccessToken(res.access));
+        dispatch(setRefreshToken(res.refresh));
         router.push("/music/main/");
       })
       .catch(error => {
