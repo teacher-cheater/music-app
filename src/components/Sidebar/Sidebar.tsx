@@ -1,6 +1,7 @@
 import Link from "next/link";
 import cls from "./sidebar.module.css";
 import Image from "next/image";
+import Username from "../Username/Username";
 
 export default function Sidebar() {
   interface Playlist {
@@ -17,7 +18,7 @@ export default function Sidebar() {
   return (
     <div className={cls.main__sidebar}>
       <div className={cls.sidebar__personal}>
-        <p className={cls.sidebar__personalName}>Sergey.Ivanov</p>
+        <Username />
         <div className={cls.sidebar__icon}>
           <svg>
             <use xlinkHref="/img/icon/sprite.svg#logout" />

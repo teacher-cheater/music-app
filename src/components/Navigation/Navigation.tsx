@@ -31,7 +31,7 @@ export default function Navigation() {
             </Link>
           </li>
           <li className={cls.menu__item}>
-            <Link href="../signin.html" className={cls.menu__link}>
+            <Link href="/auth/signin" className={cls.menu__link}>
               Войти
             </Link>
           </li>

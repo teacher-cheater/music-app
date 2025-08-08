@@ -12,12 +12,18 @@ interface authUserReturn {
   _id: number;
 }
 
+interface accessTokenType {
+  access: string;
+}
+
+interface refreshTokenType {
+  refresh: string;
+}
+
+type tokensType = accessTokenType & refreshTokenType;
+
 export const authUser = (data: authUserProps): Promise<authUserReturn> => {
-  return axios.post(`${BASE_URL}/user/login`, data, {
-    headers: {
-      "content-type": "application/json",
-    },
-  });
+  return axios.post(`${BASE_URL}/user/login`, data);
 };
 
 export const createUser = ({
@@ -29,9 +35,13 @@ export const createUser = ({
     password,
     username: email,
   };
-  return axios.post(`${BASE_URL}/user/signup`, data, {
-    headers: {
-      "content-type": "application/json",
-    },
-  });
+  return axios.post(`${BASE_URL}/user/signup`, data);
+};
+
+export const getTokens = (data: authUserProps): Promise<tokensType> => {
+  return axios.post(`${BASE_URL}/user/token/`, data).then(res => res.data);
+};
+
+export const refreshToken = (data: authUserProps): Promise<refreshTokenType> => {
+  return axios.post(`${BASE_URL}/user/token/refresh`, data);
 };
