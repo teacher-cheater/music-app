@@ -3,12 +3,11 @@ import { useState } from "react";
 import cls from "./signup.module.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { authUser, registerUser } from "@/services/auth/authApi";
+import { createUser } from "@/services/auth/authApi";
 import { AxiosError } from "axios";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -33,10 +32,6 @@ const Signup = () => {
     setPassword(e.target.value);
   };
 
-  const onChangeUsername= (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(e.target.value);
-  };
-
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
 
@@ -59,9 +54,9 @@ const Signup = () => {
     setIsLoading(true);
     setErrorMessage("");
 
-    registerUser({ email, password, username })
+    createUser({ email, password })
       .then(res => {
-        console.log(res);
+        console.log("res", res);
         router.push("/auth/signin?registered=true");
       })
       .catch(error => {
@@ -95,15 +90,6 @@ const Signup = () => {
         placeholder="Почта"
         value={email}
         onChange={e => onChangeEmail(e)}
-        disabled={isLoading}
-      /> 
-      <input
-        className={`${cls.modal__input} ${cls.login}`}
-        type="text"
-        name="login"
-        placeholder="Логин"
-        value={username}
-        onChange={e => onChangeUsername(e)}
         disabled={isLoading}
       />
       <input

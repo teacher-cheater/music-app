@@ -12,12 +12,7 @@ interface authUserReturn {
   _id: number;
 }
 
-interface RegisterUserProps extends authUserProps {
-  username: string;
-}
-
 export const authUser = (data: authUserProps): Promise<authUserReturn> => {
-  console.log(data);
   return axios.post(`${BASE_URL}/user/login`, data, {
     headers: {
       "content-type": "application/json",
@@ -25,9 +20,15 @@ export const authUser = (data: authUserProps): Promise<authUserReturn> => {
   });
 };
 
-export const registerUser = (
-  data: RegisterUserProps
-): Promise<authUserReturn> => {
+export const createUser = ({
+  email,
+  password,
+}: authUserProps): Promise<authUserReturn> => {
+  const data = {
+    email,
+    password,
+    username: email,
+  };
   return axios.post(`${BASE_URL}/user/signup`, data, {
     headers: {
       "content-type": "application/json",
