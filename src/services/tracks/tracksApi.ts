@@ -10,7 +10,7 @@ export const getAllCategories = (): Promise<TrackType[]> => {
   return axios(`${BASE_URL}/catalog/selection/all`).then(res => res.data.data);
 };
 
-export const getCategories = (id: string): Promise<CategoryType[]> => {
+export const getCategories = (id: string): Promise<CategoryType> => {
   return axios(`${BASE_URL}/catalog/selection/${id}`).then(
     res => res.data.data
   );

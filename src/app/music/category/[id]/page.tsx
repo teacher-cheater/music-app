@@ -4,6 +4,7 @@ import Centerblock from "@/components/Centerblock/Centerblock";
 import { getCategories } from "@/services/tracks/tracksApi";
 import { TrackType } from "@/sharedtypes/sharedTypes";
 import { useAppSelector } from "@/store/store";
+import { AxiosError } from "axios";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -14,24 +15,43 @@ const CategoryPage = () => {
   );
   const [isLoading, setIsLoading] = useState(true);
   const [errorRes, setErrorRes] = useState<string | null>(null);
-  const [title, setTitle] = useState(true);
+  const [title, setTitle] = useState<string>("");
   const [tracks, setTracks] = useState<TrackType[]>([]);
   const id = params.id;
-  
+
   console.log("id", params);
 
   useEffect(() => {
     setIsLoading(true);
-    if (!fetchIsLoading) {
-      getCategories(id);
+    if (!fetchIsLoading && allTracks.length) {
+      getCategories(id)
+        .then(res => {
+          setTitle(res.name);
+          const tracksIds = res.items;
+          const resultTracks = allTracks.filter(el =>
+            tracksIds.includes(el._id)
+          );
+          setTracks(resultTracks);
+        })
+        .catch(error => {
+          if (error instanceof AxiosError) {
+            if (error.response) {
+              setErrorRes(error.response.data);
+            } else if (error.request) {
+              setErrorRes("Ошибка");
+            }
+          }
+        })
+        .finally(() => setIsLoading(false));
     }
-  }, []);
+  }, [fetchIsLoading]);
 
   return (
     <Centerblock
-      allTracks={allTracks}
-      isLoading={fetchIsLoading}
-      errorRes={fetchError}
+      allTracks={tracks}
+      isLoading={isLoading}
+      errorRes={errorRes}
+      title={title}
     />
   );
 };

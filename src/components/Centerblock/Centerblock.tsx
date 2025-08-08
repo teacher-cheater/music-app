@@ -8,13 +8,19 @@ interface CenterblockProps {
   allTracks: TrackType[];
   isLoading: boolean;
   errorRes: null | string;
+  title: string;
 }
 
-const Centerblock = ({ allTracks, isLoading, errorRes }: CenterblockProps) => {
+const Centerblock = ({
+  allTracks,
+  isLoading,
+  errorRes,
+  title,
+}: CenterblockProps) => {
   return (
     <div className={cls.centerblock}>
       <Search />
-      <h2 className={cls.centerblock__h2}>Треки</h2>
+      <h2 className={cls.centerblock__h2}>{title}</h2>
       <FilterButtons />
       <div className={cls.centerblock__content}>
         <div className={cls.content__title}>
