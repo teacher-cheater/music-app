@@ -4,6 +4,7 @@ import { useState } from "react";
 import cls from "./filterButtons.module.css";
 import { TrackType } from "@/sharedtypes/sharedTypes";
 import FilterModal from "./FilterModal/FilterModal";
+import { useAppSelector } from "@/store/store";
 
 type FilterType = "исполнителю" | "году выпуска" | "жанру";
 
@@ -12,6 +13,8 @@ const FILTER_TYPES: FilterType[] = ["исполнителю", "году выпу
 const FilterButtons = () => {
   const [activeFilter, setActiveFilter] = useState<FilterType | null>(null);
   const [filteredData, setFilteredData] = useState<TrackType[]>([]);
+
+  const { allTracks } = useAppSelector(state => state.tracks);
 
   const createFilterItem = (base: Partial<TrackType>): TrackType => ({
     _id: Number(Math.random().toString()),
@@ -29,7 +32,7 @@ const FilterButtons = () => {
 
   const filterStrategies: Record<FilterType, () => TrackType[]> = {
     исполнителю: () =>
-      Array.from(new Set(data.map(track => track.author))).map(author =>
+      Array.from(new Set(allTracks.map(track => track.author))).map(author =>
         createFilterItem({
           name: author,
           author,
@@ -39,7 +42,7 @@ const FilterButtons = () => {
       ),
     "году выпуска": () =>
       Array.from(
-        new Set(data.map(track => track.release_date.split("-")[0]))
+        new Set(allTracks.map(track => track.release_date.split("-")[0]))
       ).map(year =>
         createFilterItem({
           name: year,
@@ -49,7 +52,7 @@ const FilterButtons = () => {
         })
       ),
     жанру: () =>
-      Array.from(new Set(data.flatMap(track => track.genre))).map(genre =>
+      Array.from(new Set(allTracks.flatMap(track => track.genre))).map(genre =>
         createFilterItem({
           name: genre,
           author: genre,
