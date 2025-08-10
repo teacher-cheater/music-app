@@ -3,7 +3,6 @@
 import { useState } from "react";
 import cls from "./filterButtons.module.css";
 import { TrackType } from "@/sharedtypes/sharedTypes";
-import { data } from "@/data";
 import FilterModal from "./FilterModal/FilterModal";
 
 type FilterType = "исполнителю" | "году выпуска" | "жанру";

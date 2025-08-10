@@ -11,8 +11,8 @@ export const useInitAuth = () => {
 
   useEffect(() => {
     const access = localStorage.getItem("access") || "";
-    const refresh = localStorage.getItem("access") || "";
-    const username = localStorage.getItem("access") || "";
+    const refresh = localStorage.getItem("refresh") || "";
+    const username = localStorage.getItem("username") || "";
 
     dispatch(setAccessToken(access));
     dispatch(setRefreshToken(refresh));

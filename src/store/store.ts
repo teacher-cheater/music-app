@@ -20,7 +20,7 @@ export const makeStore = () => {
 export type AppStore = ReturnType<typeof makeStore>;
 
 type RootState = ReturnType<AppStore["getState"]>;
-type AppDispatch = AppStore["dispatch"];
+export type AppDispatch = AppStore["dispatch"];
 
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
