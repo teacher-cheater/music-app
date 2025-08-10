@@ -5,8 +5,10 @@ import { useAppDispatch, useAppSelector } from "@/store/store";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import {
   setIsPlay,
+  setIsShuffled,
   setNextTrack,
   setPrevTrack,
+  setShuffledPlaylist,
 } from "@/store/features/trackSlice";
 import TrackInfo from "../TrackInfo/TrackInfo";
 import ProgressBar from "../ProgressBar/ProgressBar";
@@ -18,21 +20,26 @@ const Bar = () => {
 
   const currentTrack = useAppSelector(state => state.tracks.currentTrack);
   const isPlay = useAppSelector(state => state.tracks.isPlay);
-  const currentPlaylist = useAppSelector(state => state.tracks.playList);
+  const isShuffle = useAppSelector(state => state.tracks.isShuffled);
+  const currentPlaylist = useAppSelector(state => state.tracks.currentPlayList);
   const curIndex = useAppSelector(state => state.tracks.curIndex);
 
   const dispatch = useAppDispatch();
 
   const [isLoop, setIsLoop] = useState(false);
   const [volume, setVolume] = useState(0.3);
-  const [isLoadedTtrack, setIsLoadedTtrack] = useState(false);
+  const [isLoadedTrack, setisLoadedTrack] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
 
   useEffect(() => {
-    setIsLoadedTtrack(false);
-  }, [currentTrack]);
+    setisLoadedTrack(false);
+    setCurrentTime(0);
+  }, [currentTrack, isLoop, isShuffle]);
 
-  if (!currentTrack) return;
+  console.log("isLoop:", isLoop);
+  console.log("isShuffle:", isShuffle);
+
+  if (!currentTrack) return null;
 
   const onTogglePlayTrack = () => {
     if (isPlay) {
@@ -42,6 +49,10 @@ const Bar = () => {
       audioRef.current?.play();
       dispatch(setIsPlay(true));
     }
+  };
+
+  const onToggleShuffled = () => {
+    dispatch(setIsShuffled(!isShuffle));
   };
 
   const onToggleLoop = () => {
@@ -56,7 +67,7 @@ const Bar = () => {
     if (audioRef.current) {
       audioRef.current.play();
       dispatch(setIsPlay(true));
-      setIsLoadedTtrack(true);
+      setisLoadedTrack(true);
     }
   };
 
@@ -90,10 +101,14 @@ const Bar = () => {
       return;
     }
 
-    if (curIndex === -1 || curIndex === currentPlaylist.length - 1) {
-      onNextTrack();
+    if (isShuffle) {
+      dispatch(setNextTrack());
     } else {
-      dispatch(setIsPlay(false));
+      if (curIndex === -1 || curIndex === currentPlaylist.length - 1) {
+        onNextTrack();
+      } else {
+        dispatch(setIsPlay(false));
+      }
     }
   };
 
@@ -114,7 +129,7 @@ const Bar = () => {
         onEnded={() => onEnded()}
       />
       <div className={cls.bar__content}>
-        {isLoadedTtrack ? (
+        {isLoadedTrack ? (
           ""
         ) : (
           <div className={cls.bar__loadingTrack}>Загрузка трека...</div>
@@ -123,7 +138,7 @@ const Bar = () => {
         <ProgressBar
           max={Number(audioRef.current?.duration) || 0}
           step={0.1}
-          readOnly={!isLoadedTtrack}
+          readOnly={!isLoadedTrack}
           value={currentTime}
           onChange={onChangeProgress}
         />
@@ -172,8 +187,15 @@ const Bar = () => {
                   <use xlinkHref="/img/icon/sprite.svg#icon-repeat" />
                 </svg>
               </div>
-              <div className={`${cls.player__btnShuffle} ${cls.btnIcon}`}>
-                <svg className={cls.player__btnShuffleSvg}>
+              <div
+                onClick={() => onToggleShuffled()}
+                className={`${cls.player__btnShuffle} ${cls.btnIcon}`}
+              >
+                <svg
+                  className={`${cls.player__btnRepeatSvg} ${
+                    isShuffle ? cls._active : ""
+                  }`}
+                >
                   <use xlinkHref="/img/icon/sprite.svg#icon-shuffle" />
                 </svg>
               </div>

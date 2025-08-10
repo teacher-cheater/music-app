@@ -224,7 +224,7 @@
 }
 
 ._active {
-    stroke: white;
+    stroke: #b672ff;
 }
 
 .player__btnNext.disabled svg {
