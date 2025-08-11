@@ -2,7 +2,7 @@
 
 import cls from "./bar.module.css";
 import { useAppDispatch, useAppSelector } from "@/store/store";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import {
   setIsPlay,
   setIsShuffled,
@@ -44,7 +44,7 @@ const Bar = () => {
 
   if (!currentTrack) return null;
 
-  const onTogglePlayTrack = () => {
+  const onTogglePlayTrack = useCallback(() => {
     if (isPlay) {
       audioRef.current?.pause();
       dispatch(setIsPlay(false));
@@ -52,7 +52,7 @@ const Bar = () => {
       audioRef.current?.play();
       dispatch(setIsPlay(true));
     }
-  };
+  }, [currentTime, currentTrack?.duration_in_seconds]);
 
   const onToggleShuffled = () => {
     dispatch(setIsShuffled(!isShuffle));
@@ -83,16 +83,16 @@ const Bar = () => {
     }
   };
 
-  const onChangeProgress = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChangeProgress = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     if (audioRef.current) {
       const inputTime = Number(e.target.value);
       audioRef.current.currentTime = inputTime;
     }
-  };
+  }, []);
 
-  const onNextTrack = () => {
+  const onNextTrack = useCallback(() => {
     dispatch(setNextTrack());
-  };
+  }, [dispatch]);
 
   const onPrevtTrack = () => {
     dispatch(setPrevTrack());

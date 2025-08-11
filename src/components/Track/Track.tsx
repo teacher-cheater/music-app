@@ -11,13 +11,14 @@ import {
 } from "@/store/features/trackSlice";
 import { formatDuration } from "@/utils/helpers";
 import { useLikeTrack } from "@/hooks/useLikeTracks";
+import { memo } from "react";
 
 interface TrackProps {
   track: TrackType;
   playlist: TrackType[];
 }
 
-const Track = ({ track, playlist }: TrackProps) => {
+const Track = memo(({ track, playlist }: TrackProps) => {
   const { name, author, album, duration_in_seconds } = track;
   const currentTrack = useAppSelector(state => state.tracks.currentTrack);
   const isPlay = useAppSelector(state => state.tracks.isPlay);
@@ -87,6 +88,6 @@ const Track = ({ track, playlist }: TrackProps) => {
       </div>
     </div>
   );
-};
+});
 
 export default Track;
