@@ -33,10 +33,14 @@ const Bar = () => {
   useEffect(() => {
     setisLoadedTrack(false);
     setCurrentTime(0);
-  }, [currentTrack, isLoop, isShuffle]);
+    if (!audioRef.current) return;
 
-  console.log("isLoop:", isLoop);
-  console.log("isShuffle:", isShuffle);
+    if (isPlay) {
+      audioRef.current.play().catch(e => console.error("Play error:", e));
+    } else {
+      audioRef.current.pause();
+    }
+  }, [currentTrack, isLoop, isShuffle, isPlay, currentTrack?._id]);
 
   if (!currentTrack) return null;
 
