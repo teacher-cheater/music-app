@@ -1,6 +1,6 @@
-import { addLike } from "@/services/tracks/tracksApi";
+import { addLike, removeLike } from "@/services/tracks/tracksApi";
 import { TrackType } from "@/sharedtypes/sharedTypes";
-import { addLikedTracks } from "@/store/features/trackSlice";
+import { addLikedTracks, removeLikedTracks } from "@/store/features/trackSlice";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { withReAuth } from "@/utils/withReAuth";
 import { AxiosError } from "axios";
@@ -28,10 +28,8 @@ export const useLikeTrack = (track: TrackType | null): returnTypeHook => {
       return setErrorMsg("Нет авторизации");
     }
 
-    // removeLike для дизлайка
-    const actionApi = isLike ? addLike : addLike;
-    // removeLikedTracks
-    const actionSlice = isLike ? addLikedTracks : addLikedTracks;
+    const actionApi = isLike ? removeLike : addLike;
+    const actionSlice = isLike ? removeLikedTracks : addLikedTracks;
 
     setIsLoading(true);
     setErrorMsg(null);

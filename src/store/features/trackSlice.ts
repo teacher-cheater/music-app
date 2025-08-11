@@ -104,6 +104,11 @@ const trackSlice = createSlice({
     addLikedTracks: (state, action: PayloadAction<TrackType>) => {
       state.favoriteTracks = [...state.favoriteTracks, action.payload];
     },
+    removeLikedTracks: (state, action: PayloadAction<TrackType>) => {
+      state.favoriteTracks = state.favoriteTracks.filter(
+        track => track._id !== action.payload._id
+      );
+    },
     setFetchError: (state, action: PayloadAction<string>) => {
       state.fetchError = action.payload;
     },
@@ -124,6 +129,7 @@ export const {
   setAllTracks,
   setFavoriteTracks,
   addLikedTracks,
+  removeLikedTracks,
   setFetchError,
   setFetchIsLoading,
 } = trackSlice.actions;
