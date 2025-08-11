@@ -2,13 +2,12 @@
 
 import cls from "./bar.module.css";
 import { useAppDispatch, useAppSelector } from "@/store/store";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import {
   setIsPlay,
   setIsShuffled,
   setNextTrack,
   setPrevTrack,
-  setShuffledPlaylist,
 } from "@/store/features/trackSlice";
 import TrackInfo from "../TrackInfo/TrackInfo";
 import ProgressBar from "../ProgressBar/ProgressBar";
@@ -34,14 +33,18 @@ const Bar = () => {
   useEffect(() => {
     setisLoadedTrack(false);
     setCurrentTime(0);
-  }, [currentTrack, isLoop, isShuffle]);
+    if (!audioRef.current) return;
 
-  console.log("isLoop:", isLoop);
-  console.log("isShuffle:", isShuffle);
+    if (isPlay) {
+      audioRef.current.play().catch(e => console.error("Play error:", e));
+    } else {
+      audioRef.current.pause();
+    }
+  }, [currentTrack, isLoop, isShuffle, isPlay, currentTrack?._id]);
 
   if (!currentTrack) return null;
 
-  const onTogglePlayTrack = () => {
+  const onTogglePlayTrack = useCallback(() => {
     if (isPlay) {
       audioRef.current?.pause();
       dispatch(setIsPlay(false));
@@ -49,7 +52,7 @@ const Bar = () => {
       audioRef.current?.play();
       dispatch(setIsPlay(true));
     }
-  };
+  }, [currentTime, currentTrack?.duration_in_seconds]);
 
   const onToggleShuffled = () => {
     dispatch(setIsShuffled(!isShuffle));
@@ -80,16 +83,16 @@ const Bar = () => {
     }
   };
 
-  const onChangeProgress = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChangeProgress = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     if (audioRef.current) {
       const inputTime = Number(e.target.value);
       audioRef.current.currentTime = inputTime;
     }
-  };
+  }, []);
 
-  const onNextTrack = () => {
+  const onNextTrack = useCallback(() => {
     dispatch(setNextTrack());
-  };
+  }, [dispatch]);
 
   const onPrevtTrack = () => {
     dispatch(setPrevTrack());
