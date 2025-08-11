@@ -10,6 +10,7 @@ import {
   setIsPlay,
 } from "@/store/features/trackSlice";
 import { formatDuration } from "@/utils/helpers";
+import { useLikeTrack } from "@/hooks/useLikeTracks";
 
 interface TrackProps {
   track: TrackType;
@@ -21,6 +22,8 @@ const Track = ({ track, playlist }: TrackProps) => {
   const currentTrack = useAppSelector(state => state.tracks.currentTrack);
   const isPlay = useAppSelector(state => state.tracks.isPlay);
   const dispatch = useAppDispatch();
+
+  const { toggleLike, isLike } = useLikeTrack(track);
 
   const isCurrentTrackPlaying = currentTrack?._id === track._id && isPlay;
 
@@ -70,8 +73,12 @@ const Track = ({ track, playlist }: TrackProps) => {
           </Link>
         </div>
         <div className={cls.track__time}>
-          <svg className={cls.track__timeSvg}>
-            <use xlinkHref="/img/icon/sprite.svg#icon-like"></use>
+          <svg onClick={(e) => toggleLike(e)} className={cls.track__timeSvg}>
+            <use
+              xlinkHref={`/img/icon/sprite.svg#${
+                isLike ? "icon-like" : "icon-dislike"
+              }`}
+            ></use>
           </svg>
           <span className={cls.track__timeText}>
             {formatDuration(duration_in_seconds)}

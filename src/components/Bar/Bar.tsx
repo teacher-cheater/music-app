@@ -8,7 +8,6 @@ import {
   setIsShuffled,
   setNextTrack,
   setPrevTrack,
-  setShuffledPlaylist,
 } from "@/store/features/trackSlice";
 import TrackInfo from "../TrackInfo/TrackInfo";
 import ProgressBar from "../ProgressBar/ProgressBar";

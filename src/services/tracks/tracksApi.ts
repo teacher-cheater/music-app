@@ -15,3 +15,15 @@ export const getCategories = (id: string): Promise<CategoryType> => {
     res => res.data.data
   );
 };
+
+export const addLike = (access: string, id: number) => {
+  return axios.post(
+    `${BASE_URL}/catalog/track/${id}/favorite`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${access}`,
+      },
+    }
+  );
+};
