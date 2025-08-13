@@ -48,12 +48,12 @@ export default function Navigation() {
         <div className={cls.nav__menu}>
           <ul className={cls.menu__list}>
             <li className={cls.menu__item}>
-              <Link href="#" className={cls.menu__link}>
-                Главное
+              <Link href="/music/main" className={cls.menu__link}>
+                Главная
               </Link>
             </li>
             <li className={cls.menu__item}>
-              <Link href="#" className={cls.menu__link}>
+              <Link href="/music/favorites" className={cls.menu__link}>
                 Мой плейлист
               </Link>
             </li>

@@ -1,18 +1,21 @@
 "use client";
-import { useAppSelector } from "@/store/store";
-import Centerblock from "@/components/Centerblock/Centerblock";
 
-export default function Home() {
-  const { fetchError, fetchIsLoading, allTracks } = useAppSelector(
+import Centerblock from "@/components/Centerblock/Centerblock";
+import { useAppSelector } from "@/store/store";
+
+const FavoriteList = () => {
+  const { favoriteTracks, fetchIsLoading, fetchError } = useAppSelector(
     state => state.tracks
   );
-  
+
   return (
     <Centerblock
-      allTracks={allTracks}
+      allTracks={favoriteTracks}
       isLoading={fetchIsLoading}
       errorRes={fetchError}
       title={"Треки"}
     />
   );
-}
+};
+
+export default FavoriteList;
