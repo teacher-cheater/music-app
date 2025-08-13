@@ -31,7 +31,7 @@ export default function Sidebar() {
             <div className={cls.sidebar__item} key={link.id}>
               <Link
                 className={cls.sidebar__link}
-                href={`/music/category/${link.id}`}
+                href={`/music/category/${link.id + 1}`}
               >
                 <Image
                   className={cls.sidebar__img}
