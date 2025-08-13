@@ -1,6 +1,6 @@
 "use client";
 
-import cls from "./bar.module.css";
+import cls from "bar.module.css";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import {
