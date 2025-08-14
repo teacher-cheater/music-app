@@ -1,6 +1,6 @@
 import Search from "../Search/Search";
 import FilterButtons from "../Filter/FilterButtons";
-import cls from "./centerblock.module.css";
+import cls from "centerblock.module.css";
 import { TrackType } from "@/sharedtypes/sharedTypes";
 import Track from "../Track/Track";
 
