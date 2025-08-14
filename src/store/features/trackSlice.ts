@@ -1,7 +1,7 @@
 import { TrackType } from "@/sharedtypes/sharedTypes";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type initialStateType = {
+export type initialStateType = {
   currentTrack: TrackType | null;
   isPlay: boolean;
   isShuffled: boolean;
@@ -13,6 +13,11 @@ type initialStateType = {
   favoriteTracks: TrackType[];
   fetchError: null | string;
   fetchIsLoading: boolean;
+  filters: {
+    author: string[];
+    year: string[];
+    genre: string[];
+  };
 };
 
 const initialState: initialStateType = {
@@ -27,6 +32,11 @@ const initialState: initialStateType = {
   favoriteTracks: [],
   fetchError: null,
   fetchIsLoading: true,
+  filters: {
+    author: [],
+    year: [],
+    genre: ["Рок музыка", "Электронная музыка", "Классическая музыка"],
+  },
 };
 
 const trackSlice = createSlice({
@@ -115,6 +125,39 @@ const trackSlice = createSlice({
     setFetchIsLoading: (state, action: PayloadAction<boolean>) => {
       state.fetchIsLoading = action.payload;
     },
+    setFilterAuthor: (state, action: PayloadAction<string>) => {
+      const author = action.payload;
+      if (state.filters.author.includes(author)) {
+        state.filters.author = state.filters.author.filter(
+          author => author !== author
+        );
+      } else {
+        state.filters.author = [...state.filters.author, author];
+      }
+    },
+    removeFilterAuthor: (state, action: PayloadAction<string>) => {
+      state.filters.author = state.filters.author.filter(
+        author => author !== action.payload
+      );
+    },
+    setFilterYear: (state, action: PayloadAction<string>) => {
+      if (state.filters.year.includes(action.payload)) {
+        state.filters.year = state.filters.year.filter(
+          y => y !== action.payload
+        );
+      } else {
+        state.filters.year.push(action.payload);
+      }
+    },
+    setFilterGenre: (state, action: PayloadAction<string>) => {
+      if (state.filters.genre.includes(action.payload)) {
+        state.filters.genre = state.filters.genre.filter(
+          g => g !== action.payload
+        );
+      } else {
+        state.filters.genre.push(action.payload);
+      }
+    },
   },
 });
 
@@ -132,5 +175,9 @@ export const {
   removeLikedTracks,
   setFetchError,
   setFetchIsLoading,
+  setFilterAuthor,
+  removeFilterAuthor,
+  setFilterGenre,
+  setFilterYear,
 } = trackSlice.actions;
 export const trackSliceReducer = trackSlice.reducer;

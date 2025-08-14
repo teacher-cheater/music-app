@@ -46,3 +46,17 @@
 
     position: relative;
 }
+
+.filter__count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #B672FF;
+    color: #ffffff;
+    width: 20px;
+    height: 20px;
+    border-radius: 999px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
