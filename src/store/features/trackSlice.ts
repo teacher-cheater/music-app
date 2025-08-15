@@ -13,6 +13,8 @@ export type initialStateType = {
   favoriteTracks: TrackType[];
   fetchError: null | string;
   fetchIsLoading: boolean;
+  pagePlaylist: TrackType[];
+  filtredTracks: TrackType[];
   filters: {
     author: string[];
     year: string[];
@@ -32,6 +34,8 @@ const initialState: initialStateType = {
   favoriteTracks: [],
   fetchError: null,
   fetchIsLoading: true,
+  pagePlaylist: [],
+  filtredTracks: [],
   filters: {
     author: [],
     year: [],
@@ -158,6 +162,9 @@ const trackSlice = createSlice({
         state.filters.genre.push(action.payload);
       }
     },
+    setPagePlaylist: (state, action) => {
+      state.pagePlaylist = action.payload;
+    },
   },
 });
 
@@ -179,5 +186,6 @@ export const {
   removeFilterAuthor,
   setFilterGenre,
   setFilterYear,
+  setPagePlaylist,
 } = trackSlice.actions;
 export const trackSliceReducer = trackSlice.reducer;
