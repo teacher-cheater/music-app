@@ -7,6 +7,8 @@ import FilterModal from "./FilterModal/FilterModal";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import {
   removeFilterAuthor,
+  removeFilterGenre,
+  removeFilterYear,
   setFilterAuthor,
   setFilterGenre,
   setFilterYear,
@@ -62,7 +64,7 @@ const FilterButtons = () => {
       Array.from(new Set(allTracks.flatMap(track => track.genre))).map(genre =>
         createFilterItem({
           name: genre,
-          author: genre,
+          author: "",
           release_date: "",
           genre: [genre],
         })
@@ -89,16 +91,14 @@ const FilterButtons = () => {
         break;
       case "году выпуска":
         if (filters.year.includes(value)) {
-          // Нужно добавить removeFilterYear в slice
-          dispatch(setFilterYear(value));
+          dispatch(removeFilterYear(value));
         } else {
           dispatch(setFilterYear(value));
         }
         break;
       case "жанру":
         if (filters.genre.includes(value)) {
-          // Нужно добавить removeFilterGenre в slice
-          dispatch(setFilterGenre(value));
+          dispatch(removeFilterGenre(value));
         } else {
           dispatch(setFilterGenre(value));
         }

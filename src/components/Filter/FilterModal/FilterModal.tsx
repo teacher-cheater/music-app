@@ -25,7 +25,7 @@ const FilterModal = ({
       case "году выпуска":
         return item.release_date.split("-")[0];
       case "жанру":
-        return item.genre[0];
+        return item.name;
       default:
         return "";
     }

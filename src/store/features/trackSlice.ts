@@ -19,7 +19,7 @@ const initialState: initialStateType = {
   filters: {
     author: [],
     year: [],
-    genre: ["Рок музыка", "Электронная музыка", "Классическая музыка"],
+    genre: [],
   },
 };
 
@@ -134,6 +134,9 @@ const trackSlice = createSlice({
         state.filters.year.push(action.payload);
       }
     },
+    removeFilterYear: (state, action) => {
+      state.filters.year = state.filters.year.filter(y => y !== action.payload);
+    },
     setFilterGenre: (state, action: PayloadAction<string>) => {
       const genres = action.payload;
 
@@ -144,6 +147,11 @@ const trackSlice = createSlice({
       }
 
       state.filteredTracks = applyFilters(state);
+    },
+    removeFilterGenre: (state, action: PayloadAction<string>) => {
+      state.filters.genre = state.filters.genre.filter(
+        g => g !== action.payload
+      );
     },
     setPagePlaylist: (state, action) => {
       state.pagePlaylist = action.payload;
@@ -168,7 +176,9 @@ export const {
   setFilterAuthor,
   removeFilterAuthor,
   setFilterGenre,
+  removeFilterGenre,
   setFilterYear,
+  removeFilterYear,
   setPagePlaylist,
 } = trackSlice.actions;
 export const trackSliceReducer = trackSlice.reducer;

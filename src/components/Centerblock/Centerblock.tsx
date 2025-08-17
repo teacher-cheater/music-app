@@ -29,7 +29,7 @@ const Centerblock = ({
     if (!isLoading && !errorRes) {
       dispatch(setPagePlaylist(allTracks));
     }
-  }, [isLoading, errorRes, pagePlaylist]);
+  }, [isLoading, errorRes]);
 
   return (
     <div className={cls.centerblock}>
