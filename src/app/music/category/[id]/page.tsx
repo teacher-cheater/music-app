@@ -10,7 +10,9 @@ import { useEffect, useState } from "react";
 
 const CategoryPage = () => {
   const params = useParams<{ id: string }>();
-  const { allTracks, fetchIsLoading } = useAppSelector(state => state.tracks);
+  const { allTracks, fetchIsLoading, pagePlaylist } = useAppSelector(
+    state => state.tracks
+  );
   const [isLoading, setIsLoading] = useState(true);
   const [errorRes, setErrorRes] = useState<string | null>(null);
   const [title, setTitle] = useState<string>("");
@@ -44,6 +46,7 @@ const CategoryPage = () => {
 
   return (
     <Centerblock
+      pagePlaylist={pagePlaylist}
       allTracks={tracks}
       isLoading={isLoading}
       errorRes={errorRes}

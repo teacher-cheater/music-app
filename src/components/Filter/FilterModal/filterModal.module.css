@@ -38,8 +38,14 @@
 
 .modalItem:hover {
     color: #B672FF;
-    /* border-bottom: 1px solid #B672FF; */
     width: fit-content;
+}
+
+.modalItem_active {
+    color: #B672FF;
+    border-bottom: 1px solid #B672FF;
+    width: fit-content;
+
 }
 
 .filter__list {

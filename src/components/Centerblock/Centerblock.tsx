@@ -1,10 +1,15 @@
+"use client";
 import Search from "../Search/Search";
 import FilterButtons from "../Filter/FilterButtons";
-import cls from "centerblock.module.css";
+import cls from "./centerblock.module.css";
 import { TrackType } from "@/sharedtypes/sharedTypes";
 import Track from "../Track/Track";
+import { useEffect } from "react";
+import { useAppDispatch } from "@/store/store";
+import { setPagePlaylist } from "@/store/features/trackSlice";
 
 interface CenterblockProps {
+  pagePlaylist: TrackType[];
   allTracks: TrackType[];
   isLoading: boolean;
   errorRes: null | string;
@@ -12,11 +17,20 @@ interface CenterblockProps {
 }
 
 const Centerblock = ({
+  pagePlaylist,
   allTracks,
   isLoading,
   errorRes,
   title,
 }: CenterblockProps) => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (!isLoading && !errorRes) {
+      dispatch(setPagePlaylist(allTracks));
+    }
+  }, [isLoading, errorRes]);
+
   return (
     <div className={cls.centerblock}>
       <Search />
@@ -40,7 +54,7 @@ const Centerblock = ({
             ? errorRes
             : isLoading
             ? "Загрузка..."
-            : allTracks.map(track => (
+            : pagePlaylist.map(track => (
                 <Track track={track} key={track._id} playlist={allTracks} />
               ))}
         </div>
