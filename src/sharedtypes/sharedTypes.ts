@@ -17,3 +17,24 @@ export interface CategoryType {
   items: number[];
   owner: number[];
 }
+
+export type initialStateType = {
+  currentTrack: TrackType | null;
+  isPlay: boolean;
+  isShuffled: boolean;
+  currentPlayList: TrackType[];
+  originalPlayList: TrackType[];
+  shuffledPlayList: TrackType[];
+  curIndex: number;
+  allTracks: TrackType[];
+  favoriteTracks: TrackType[];
+  fetchError: null | string;
+  fetchIsLoading: boolean;
+  pagePlaylist: TrackType[];
+  filteredTracks: TrackType[];
+  filters: {
+    author: string[];
+    year: string[];
+    genre: string[];
+  };
+};

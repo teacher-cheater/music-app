@@ -1,26 +1,6 @@
-import { TrackType } from "@/sharedtypes/sharedTypes";
+import { initialStateType, TrackType } from "@/sharedtypes/sharedTypes";
+import { applyFilters } from "@/utils/applyFilters";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-export type initialStateType = {
-  currentTrack: TrackType | null;
-  isPlay: boolean;
-  isShuffled: boolean;
-  currentPlayList: TrackType[];
-  originalPlayList: TrackType[];
-  shuffledPlayList: TrackType[];
-  curIndex: number;
-  allTracks: TrackType[];
-  favoriteTracks: TrackType[];
-  fetchError: null | string;
-  fetchIsLoading: boolean;
-  pagePlaylist: TrackType[];
-  filteredTracks: TrackType[];
-  filters: {
-    author: string[];
-    year: string[];
-    genre: string[];
-  };
-};
 
 const initialState: initialStateType = {
   currentTrack: null,
@@ -131,7 +111,6 @@ const trackSlice = createSlice({
     },
     setFilterAuthor: (state, action: PayloadAction<string>) => {
       const author = action.payload;
-      let filteredPlaylist = state.pagePlaylist;
 
       if (state.filters.author.includes(author)) {
         state.filters.author = state.filters.author.filter(el => el !== author);
@@ -139,19 +118,7 @@ const trackSlice = createSlice({
         state.filters.author = [...state.filters.author, author];
       }
 
-      if (state.filters.author.length) {
-        filteredPlaylist = state.pagePlaylist.filter(track =>
-          state.filters.author.includes(track.author)
-        );
-      }
-
-      if (state.filters.genre.length) {
-        filteredPlaylist = state.pagePlaylist.filter(track =>
-          state.filters.genre.some(el => track.genre.includes(el))
-        );
-      }
-      state.filteredTracks = filteredPlaylist;
-      console.log("state.filters.author---", state.filteredTracks);
+      state.filteredTracks = applyFilters(state);
     },
     removeFilterAuthor: (state, action: PayloadAction<string>) => {
       state.filters.author = state.filters.author.filter(
@@ -169,24 +136,14 @@ const trackSlice = createSlice({
     },
     setFilterGenre: (state, action: PayloadAction<string>) => {
       const genres = action.payload;
-      let filteredPlaylist = state.pagePlaylist;
 
       if (state.filters.genre.includes(genres)) {
         state.filters.genre = state.filters.genre.filter(g => g !== genres);
       } else {
         state.filters.genre.push(genres);
       }
-      if (state.filters.author.length) {
-        filteredPlaylist = state.pagePlaylist.filter(track =>
-          state.filters.author.includes(track.author)
-        );
-      }
-      if (state.filters.genre.length) {
-        filteredPlaylist = state.pagePlaylist.filter(track =>
-          state.filters.genre.some(el => track.genre.includes(el))
-        );
-      }
-      state.filteredTracks = filteredPlaylist;
+
+      state.filteredTracks = applyFilters(state);
     },
     setPagePlaylist: (state, action) => {
       state.pagePlaylist = action.payload;
