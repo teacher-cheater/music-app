@@ -1,6 +1,7 @@
 "use client";
 
 import Centerblock from "@/components/Centerblock/Centerblock";
+import { useCurrentPlaylist } from "@/hooks/useCurrentPlaylist";
 import { useAppSelector } from "@/store/store";
 
 const FavoriteList = () => {
