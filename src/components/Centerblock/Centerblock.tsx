@@ -24,12 +24,12 @@ const Centerblock = ({
   title,
 }: CenterblockProps) => {
   const dispatch = useAppDispatch();
-  
+
   useEffect(() => {
     if (!isLoading && !errorRes) {
       dispatch(setPagePlaylist(allTracks));
     }
-  }, [isLoading, errorRes]);
+  }, [isLoading, errorRes, pagePlaylist]);
 
   return (
     <div className={cls.centerblock}>
@@ -54,7 +54,7 @@ const Centerblock = ({
             ? errorRes
             : isLoading
             ? "Загрузка..."
-            : allTracks.map(track => (
+            : pagePlaylist.map(track => (
                 <Track track={track} key={track._id} playlist={allTracks} />
               ))}
         </div>
