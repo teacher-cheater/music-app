@@ -14,7 +14,7 @@ export type initialStateType = {
   fetchError: null | string;
   fetchIsLoading: boolean;
   pagePlaylist: TrackType[];
-  filtredTracks: TrackType[];
+  filteredTracks: TrackType[];
   filters: {
     author: string[];
     year: string[];
@@ -35,7 +35,7 @@ const initialState: initialStateType = {
   fetchError: null,
   fetchIsLoading: true,
   pagePlaylist: [],
-  filtredTracks: [],
+  filteredTracks: [],
   filters: {
     author: [],
     year: [],
@@ -131,13 +131,27 @@ const trackSlice = createSlice({
     },
     setFilterAuthor: (state, action: PayloadAction<string>) => {
       const author = action.payload;
+      let filteredPlaylist = state.pagePlaylist;
+
       if (state.filters.author.includes(author)) {
-        state.filters.author = state.filters.author.filter(
-          author => author !== author
-        );
+        state.filters.author = state.filters.author.filter(el => el !== author);
       } else {
         state.filters.author = [...state.filters.author, author];
       }
+
+      if (state.filters.author.length) {
+        filteredPlaylist = state.pagePlaylist.filter(track =>
+          state.filters.author.includes(track.author)
+        );
+      }
+
+      if (state.filters.genre.length) {
+        filteredPlaylist = state.pagePlaylist.filter(track =>
+          state.filters.genre.some(el => track.genre.includes(el))
+        );
+      }
+      state.filteredTracks = filteredPlaylist;
+      console.log("state.filters.author---", state.filteredTracks);
     },
     removeFilterAuthor: (state, action: PayloadAction<string>) => {
       state.filters.author = state.filters.author.filter(
@@ -154,13 +168,25 @@ const trackSlice = createSlice({
       }
     },
     setFilterGenre: (state, action: PayloadAction<string>) => {
-      if (state.filters.genre.includes(action.payload)) {
-        state.filters.genre = state.filters.genre.filter(
-          g => g !== action.payload
-        );
+      const genres = action.payload;
+      let filteredPlaylist = state.pagePlaylist;
+
+      if (state.filters.genre.includes(genres)) {
+        state.filters.genre = state.filters.genre.filter(g => g !== genres);
       } else {
-        state.filters.genre.push(action.payload);
+        state.filters.genre.push(genres);
       }
+      if (state.filters.author.length) {
+        filteredPlaylist = state.pagePlaylist.filter(track =>
+          state.filters.author.includes(track.author)
+        );
+      }
+      if (state.filters.genre.length) {
+        filteredPlaylist = state.pagePlaylist.filter(track =>
+          state.filters.genre.some(el => track.genre.includes(el))
+        );
+      }
+      state.filteredTracks = filteredPlaylist;
     },
     setPagePlaylist: (state, action) => {
       state.pagePlaylist = action.payload;

@@ -21,10 +21,7 @@ const FilterButtons = () => {
   const [filteredData, setFilteredData] = useState<TrackType[]>([]);
   const dispatch = useAppDispatch();
   const { allTracks } = useAppSelector(state => state.tracks);
-
   const { filters } = useAppSelector(state => state.tracks);
-  console.log(filters.author);
-  console.log(filters.year);
 
   const createFilterItem = (base: Partial<TrackType>): TrackType => ({
     _id: Number(Math.random().toString()),
@@ -92,16 +89,16 @@ const FilterButtons = () => {
         break;
       case "году выпуска":
         if (filters.year.includes(value)) {
-          // Нужно добавить removeFilterYear в ваш slice
-          dispatch(setFilterYear(value)); // Замените на removeFilterYear когда добавите
+          // Нужно добавить removeFilterYear в slice
+          dispatch(setFilterYear(value));
         } else {
           dispatch(setFilterYear(value));
         }
         break;
       case "жанру":
         if (filters.genre.includes(value)) {
-          // Нужно добавить removeFilterGenre в ваш slice
-          dispatch(setFilterGenre(value)); // Замените на removeFilterGenre когда добавите
+          // Нужно добавить removeFilterGenre в slice
+          dispatch(setFilterGenre(value));
         } else {
           dispatch(setFilterGenre(value));
         }

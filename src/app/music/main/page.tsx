@@ -5,18 +5,19 @@ import { useEffect, useState } from "react";
 import { TrackType } from "@/sharedtypes/sharedTypes";
 
 export default function Home() {
-  const { fetchError, fetchIsLoading, allTracks, filters, filtredTracks } =
+  const { fetchError, fetchIsLoading, allTracks, filters, filteredTracks } =
     useAppSelector(state => state.tracks);
   const [playlist, setPlaylist] = useState<TrackType[]>([]);
 
   useEffect(() => {
-    const currentPlaylist = filters.author.length ? filtredTracks : allTracks;
+    const currentPlaylist = filters.author.length ? filteredTracks : allTracks;
     setPlaylist(currentPlaylist);
-  }, [filters, filtredTracks]);
+  }, [filters, filteredTracks]);
 
   return (
     <Centerblock
-      allTracks={playlist}
+      pagePlaylist={playlist}
+      allTracks={allTracks}
       isLoading={fetchIsLoading}
       errorRes={fetchError}
       title={"Треки"}

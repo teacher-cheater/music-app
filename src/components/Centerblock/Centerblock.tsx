@@ -9,6 +9,7 @@ import { useAppDispatch } from "@/store/store";
 import { setPagePlaylist } from "@/store/features/trackSlice";
 
 interface CenterblockProps {
+  pagePlaylist: TrackType[];
   allTracks: TrackType[];
   isLoading: boolean;
   errorRes: null | string;
@@ -16,13 +17,14 @@ interface CenterblockProps {
 }
 
 const Centerblock = ({
+  pagePlaylist,
   allTracks,
   isLoading,
   errorRes,
   title,
 }: CenterblockProps) => {
   const dispatch = useAppDispatch();
-
+  
   useEffect(() => {
     if (!isLoading && !errorRes) {
       dispatch(setPagePlaylist(allTracks));
