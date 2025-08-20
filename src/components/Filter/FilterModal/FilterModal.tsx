@@ -32,11 +32,15 @@ const FilterModal = ({
   };
 
   const isSelected = (value: string) => {
-    if (currentFilter === "году выпуска") {
-      return selectedValues === value;
-    } else {
-      return Array.isArray(selectedValues) && selectedValues.includes(value);
-    }
+    if (!selectedValues) return false;
+
+    console.log("isSelected", value);
+    console.log("selectedValues", selectedValues);
+    console.log("selectedValues.includes(value)", selectedValues.includes(value));
+
+    return currentFilter === "году выпуска"
+      ? selectedValues === value
+      : selectedValues.includes(value);
   };
 
   return (

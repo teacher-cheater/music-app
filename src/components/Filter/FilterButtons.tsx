@@ -26,6 +26,7 @@ const FilterButtons = () => {
     state => state.tracks
   );
   console.log("filteredTracks", filteredTracks);
+  console.log("filteredData", filteredData);
 
   const createFilterItem = (base: Partial<TrackType>): TrackType => ({
     _id: Number(Math.random().toString()),

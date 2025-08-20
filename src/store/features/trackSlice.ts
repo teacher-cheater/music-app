@@ -111,25 +111,26 @@ const trackSlice = createSlice({
     },
     setFilterAuthor: (state, action: PayloadAction<string>) => {
       const author = action.payload;
-
       if (state.filters.author.includes(author)) {
         state.filters.author = state.filters.author.filter(el => el !== author);
       } else {
         state.filters.author = [...state.filters.author, author];
       }
-
       state.filteredTracks = applyFilters(state);
     },
     removeFilterAuthor: (state, action: PayloadAction<string>) => {
       state.filters.author = state.filters.author.filter(
         author => author !== action.payload
       );
+      state.filteredTracks = applyFilters(state);
     },
     setFilterYear: (state, action: PayloadAction<string>) => {
       state.filters.year = action.payload;
+      state.filteredTracks = applyFilters(state);
     },
     removeFilterYear: state => {
       state.filters.year = null;
+      state.filteredTracks = applyFilters(state);
     },
     setFilterGenre: (state, action: PayloadAction<string>) => {
       const genres = action.payload;
@@ -146,9 +147,12 @@ const trackSlice = createSlice({
       state.filters.genre = state.filters.genre.filter(
         g => g !== action.payload
       );
+      state.filteredTracks = applyFilters(state);
     },
     setPagePlaylist: (state, action) => {
       state.pagePlaylist = action.payload;
+      console.log('setPagePlaylist', state.pagePlaylist);
+      // state.filteredTracks = applyFilters(state);
     },
   },
 });
