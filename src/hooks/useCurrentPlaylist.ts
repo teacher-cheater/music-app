@@ -11,7 +11,7 @@ export const useCurrentPlaylist = (
 
   useEffect(() => {
     const hasFilters =
-      filters.author.length || filters.genre.length || filters.year.length;
+      filters.author.length || filters.genre.length || filters.year;
     setPlaylist(hasFilters ? filteredItems : allTracks);
   }, [filters, filteredItems, allTracks]);
 

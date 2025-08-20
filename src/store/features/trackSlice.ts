@@ -18,7 +18,7 @@ const initialState: initialStateType = {
   filteredTracks: [],
   filters: {
     author: [],
-    year: [],
+    year: "",
     genre: [],
   },
 };
@@ -111,31 +111,26 @@ const trackSlice = createSlice({
     },
     setFilterAuthor: (state, action: PayloadAction<string>) => {
       const author = action.payload;
-
       if (state.filters.author.includes(author)) {
         state.filters.author = state.filters.author.filter(el => el !== author);
       } else {
         state.filters.author = [...state.filters.author, author];
       }
-
       state.filteredTracks = applyFilters(state);
     },
     removeFilterAuthor: (state, action: PayloadAction<string>) => {
       state.filters.author = state.filters.author.filter(
         author => author !== action.payload
       );
+      state.filteredTracks = applyFilters(state);
     },
     setFilterYear: (state, action: PayloadAction<string>) => {
-      if (state.filters.year.includes(action.payload)) {
-        state.filters.year = state.filters.year.filter(
-          y => y !== action.payload
-        );
-      } else {
-        state.filters.year.push(action.payload);
-      }
+      state.filters.year = action.payload;
+      state.filteredTracks = applyFilters(state);
     },
-    removeFilterYear: (state, action) => {
-      state.filters.year = state.filters.year.filter(y => y !== action.payload);
+    removeFilterYear: state => {
+      state.filters.year = null;
+      state.filteredTracks = applyFilters(state);
     },
     setFilterGenre: (state, action: PayloadAction<string>) => {
       const genres = action.payload;
@@ -152,9 +147,12 @@ const trackSlice = createSlice({
       state.filters.genre = state.filters.genre.filter(
         g => g !== action.payload
       );
+      state.filteredTracks = applyFilters(state);
     },
     setPagePlaylist: (state, action) => {
       state.pagePlaylist = action.payload;
+      console.log('setPagePlaylist', state.pagePlaylist);
+      // state.filteredTracks = applyFilters(state);
     },
   },
 });

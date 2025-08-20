@@ -8,7 +8,7 @@ interface FilterModalProps {
   filteredData: TrackType[];
   onClose: () => void;
   onSelect: (value: string) => void;
-  selectedValues: string[];
+  selectedValues: string | string[] | null;
 }
 
 const FilterModal = ({
@@ -23,12 +23,24 @@ const FilterModal = ({
       case "исполнителю":
         return item.author;
       case "году выпуска":
-        return item.release_date.split("-")[0];
+        return item.name;
       case "жанру":
         return item.name;
       default:
         return "";
     }
+  };
+
+  const isSelected = (value: string) => {
+    if (!selectedValues) return false;
+
+    console.log("isSelected", value);
+    console.log("selectedValues", selectedValues);
+    console.log("selectedValues.includes(value)", selectedValues.includes(value));
+
+    return currentFilter === "году выпуска"
+      ? selectedValues === value
+      : selectedValues.includes(value);
   };
 
   return (
@@ -37,13 +49,13 @@ const FilterModal = ({
         <ul className={cls.modalList}>
           {filteredData.map(item => {
             const value = getValueToCompare(item);
-            const isSelected = selectedValues.includes(value);
+            const selected = isSelected(value);
 
             return (
               <li
                 key={item._id}
                 className={`${cls.modalItem} ${
-                  isSelected ? cls.modalItem_active : ""
+                  selected ? cls.modalItem_active : ""
                 }`}
                 onClick={() => onSelect(value)}
               >

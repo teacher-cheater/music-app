@@ -34,7 +34,7 @@ export type initialStateType = {
   filteredTracks: TrackType[];
   filters: {
     author: string[];
-    year: string[];
+    year: string | null;
     genre: string[];
   };
 };
