@@ -42,8 +42,6 @@ const Bar = () => {
     }
   }, [currentTrack, isLoop, isShuffle, isPlay, currentTrack?._id]);
 
-  if (!currentTrack) return null;
-
   const onTogglePlayTrack = useCallback(() => {
     if (isPlay) {
       audioRef.current?.pause();
@@ -118,6 +116,8 @@ const Bar = () => {
   const showTrackTime = () => {
     return getTimepanel(currentTime, currentTrack?.duration_in_seconds);
   };
+
+  if (!currentTrack) return null;
 
   return (
     <div className={cls.bar}>
