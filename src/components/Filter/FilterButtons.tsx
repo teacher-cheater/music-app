@@ -22,8 +22,10 @@ const FilterButtons = () => {
   const [activeFilter, setActiveFilter] = useState<FilterType | null>(null);
   const [filteredData, setFilteredData] = useState<TrackType[]>([]);
   const dispatch = useAppDispatch();
-  const { allTracks } = useAppSelector(state => state.tracks);
-  const { filters } = useAppSelector(state => state.tracks);
+  const { allTracks, filters, filteredTracks } = useAppSelector(
+    state => state.tracks
+  );
+  console.log("filteredTracks", filteredTracks);
 
   const createFilterItem = (base: Partial<TrackType>): TrackType => ({
     _id: Number(Math.random().toString()),
@@ -49,17 +51,25 @@ const FilterButtons = () => {
           genre: [],
         })
       ),
-    "году выпуска": () =>
-      Array.from(
-        new Set(allTracks.map(track => track.release_date.split("-")[0]))
-      ).map(year =>
+    "году выпуска": () => {
+      const allYears = Array.from(
+        new Set(
+          allTracks.map(track => {
+            const date = new Date(track.release_date);
+            return isNaN(date.getTime()) ? 0 : date.getFullYear();
+          })
+        )
+      )
+        .filter(year => year > 0)
+        .sort((a, b) => b - a);
+
+      return allYears.map(year =>
         createFilterItem({
-          name: year,
-          author: year,
-          release_date: year,
-          genre: [],
+          name: String(year),
+          release_date: String(year),
         })
-      ),
+      );
+    },
     жанру: () =>
       Array.from(new Set(allTracks.flatMap(track => track.genre))).map(genre =>
         createFilterItem({
@@ -90,8 +100,8 @@ const FilterButtons = () => {
         }
         break;
       case "году выпуска":
-        if (filters.year.includes(value)) {
-          dispatch(removeFilterYear(value));
+        if (filters.year === value) {
+          dispatch(removeFilterYear());
         } else {
           dispatch(setFilterYear(value));
         }
@@ -111,7 +121,7 @@ const FilterButtons = () => {
       case "исполнителю":
         return filters.author.length;
       case "году выпуска":
-        return filters.year.length;
+        return filters.year ? 1 : 0;
       case "жанру":
         return filters.genre.length;
       default:

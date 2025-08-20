@@ -18,7 +18,7 @@ const initialState: initialStateType = {
   filteredTracks: [],
   filters: {
     author: [],
-    year: [],
+    year: "",
     genre: [],
   },
 };
@@ -126,16 +126,10 @@ const trackSlice = createSlice({
       );
     },
     setFilterYear: (state, action: PayloadAction<string>) => {
-      if (state.filters.year.includes(action.payload)) {
-        state.filters.year = state.filters.year.filter(
-          y => y !== action.payload
-        );
-      } else {
-        state.filters.year.push(action.payload);
-      }
+      state.filters.year = action.payload;
     },
-    removeFilterYear: (state, action) => {
-      state.filters.year = state.filters.year.filter(y => y !== action.payload);
+    removeFilterYear: state => {
+      state.filters.year = null;
     },
     setFilterGenre: (state, action: PayloadAction<string>) => {
       const genres = action.payload;
