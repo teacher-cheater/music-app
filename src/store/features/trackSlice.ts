@@ -17,10 +17,12 @@ const initialState: initialStateType = {
   pagePlaylist: [],
   filteredTracks: [],
   filters: {
+    name: "",
     author: [],
     year: "",
     genre: [],
   },
+  searchQuery: "",
 };
 
 const trackSlice = createSlice({
@@ -35,6 +37,7 @@ const trackSlice = createSlice({
       state.currentPlayList = state.isShuffled
         ? [...action.payload].sort(() => Math.random() - 0.5)
         : action.payload;
+      state.filteredTracks = applyFilters(state);
     },
     setIsPlay: (state, action: PayloadAction<boolean>) => {
       state.isPlay = action.payload;
@@ -151,8 +154,11 @@ const trackSlice = createSlice({
     },
     setPagePlaylist: (state, action) => {
       state.pagePlaylist = action.payload;
-      console.log('setPagePlaylist', state.pagePlaylist);
-      // state.filteredTracks = applyFilters(state);
+    },
+
+    setSearchQuery: (state, action: PayloadAction<string>) => {
+      state.searchQuery = action.payload;
+      state.filteredTracks = applyFilters(state);
     },
   },
 });
@@ -178,5 +184,6 @@ export const {
   setFilterYear,
   removeFilterYear,
   setPagePlaylist,
+  setSearchQuery,
 } = trackSlice.actions;
 export const trackSliceReducer = trackSlice.reducer;

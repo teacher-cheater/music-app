@@ -33,8 +33,10 @@ export type initialStateType = {
   pagePlaylist: TrackType[];
   filteredTracks: TrackType[];
   filters: {
+    name: string;
     author: string[];
     year: string | null;
     genre: string[];
   };
+  searchQuery: string;
 };

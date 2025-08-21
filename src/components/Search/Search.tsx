@@ -1,26 +1,28 @@
 "use client";
-import { ChangeEvent, useState } from "react";
 import cls from "./search.module.css";
+import { useAppDispatch, useAppSelector } from "@/store/store";
+import { setSearchQuery } from "@/store/features/trackSlice";
 
 const Search = () => {
-  const [serachInput, setSerachInput] = useState("");
+  const { searchQuery } = useAppSelector(state => state.tracks);
+  const dispatch = useAppDispatch();
 
-  const onSerachInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setSerachInput(e.target.value);
+  const onSearchInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    dispatch(setSearchQuery(e.target.value));
   };
 
   return (
     <div className={cls.centerblock__search}>
       <svg className={cls.search__svg}>
-        <use xlinkHref="/img/icon/sprite.svg#icon-search"></use>
+        <use xlinkHref="/img/icon/sprite.svg#icon-search" />
       </svg>
       <input
         className={cls.search__text}
         type="search"
         placeholder="Поиск"
         name="search"
-        value={serachInput}
-        onChange={e => onSerachInput(e)}
+        onChange={e => onSearchInput(e)}
+        value={searchQuery}
       />
     </div>
   );
