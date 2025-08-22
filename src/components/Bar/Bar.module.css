@@ -203,6 +203,7 @@
 .trackPlay__like,
 .trackPlay__dislike {
     padding: 5px;
+    cursor: pointer;
 }
 
 .trackPlay__likeSvg {
@@ -224,7 +225,8 @@
 }
 
 ._active {
-    stroke: #b672ff;
+    stroke: #b672ff !important;
+    fill: #b672ff !important;
 }
 
 .player__btnNext.disabled svg {
