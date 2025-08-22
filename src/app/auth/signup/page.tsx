@@ -56,7 +56,6 @@ const Signup = () => {
 
     createUser({ email, password })
       .then(res => {
-        console.log("res", res);
         router.push("/auth/signin?registered=true");
       })
       .catch(error => {
