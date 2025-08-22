@@ -182,3 +182,8 @@
     text-align: right;
     color: #696969;
 }
+
+._active {
+    stroke: #B672FF;
+    fill: #B672FF;
+}
