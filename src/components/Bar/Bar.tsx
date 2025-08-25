@@ -1,6 +1,5 @@
 "use client";
 
-import cls from "./bar.module.css";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import {
@@ -14,6 +13,7 @@ import ProgressBar from "../ProgressBar/ProgressBar";
 import AudioPlayer from "../AudioPlayer/AudioPlayer";
 import { getTimepanel } from "@/utils/helpers";
 import { useLikeTrack } from "@/hooks/useLikeTracks";
+import cls from "./bar.module.css";
 
 const Bar = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);

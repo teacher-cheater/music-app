@@ -1,12 +1,12 @@
 "use client";
 import Search from "../Search/Search";
 import FilterButtons from "../Filter/FilterButtons";
-import cls from "./centerblock.module.css";
 import { TrackType } from "@/sharedtypes/sharedTypes";
 import Track from "../Track/Track";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { setPagePlaylist } from "@/store/features/trackSlice";
+import cls from "./centerblock.module.css";
 
 interface CenterblockProps {
   pagePlaylist: TrackType[];
