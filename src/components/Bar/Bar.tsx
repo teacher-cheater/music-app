@@ -13,6 +13,7 @@ import TrackInfo from "../TrackInfo/TrackInfo";
 import ProgressBar from "../ProgressBar/ProgressBar";
 import AudioPlayer from "../AudioPlayer/AudioPlayer";
 import { getTimepanel } from "@/utils/helpers";
+import { useLikeTrack } from "@/hooks/useLikeTracks";
 
 const Bar = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -22,6 +23,9 @@ const Bar = () => {
   const isShuffle = useAppSelector(state => state.tracks.isShuffled);
   const currentPlaylist = useAppSelector(state => state.tracks.currentPlayList);
   const curIndex = useAppSelector(state => state.tracks.curIndex);
+  const user = useAppSelector(state => state.auth.username);
+
+  const { toggleLike, isLike } = useLikeTrack(currentTrack);
 
   const dispatch = useAppDispatch();
 
@@ -41,8 +45,6 @@ const Bar = () => {
       audioRef.current.pause();
     }
   }, [currentTrack, isLoop, isShuffle, isPlay, currentTrack?._id]);
-
-  if (!currentTrack) return null;
 
   const onTogglePlayTrack = useCallback(() => {
     if (isPlay) {
@@ -118,6 +120,8 @@ const Bar = () => {
   const showTrackTime = () => {
     return getTimepanel(currentTime, currentTrack?.duration_in_seconds);
   };
+
+  if (!currentTrack) return null;
 
   return (
     <div className={cls.bar}>
@@ -207,16 +211,26 @@ const Bar = () => {
             <div className={cls.player__trackPlay}>
               <TrackInfo track={currentTrack} />
               <div className={cls.trackPlay__dislike}>
-                <div className={`${cls.player__btnShuffle} ${cls.btnIcon}`}>
-                  <svg className={cls.trackPlay__likeSvg}>
-                    <use xlinkHref="/img/icon/sprite.svg#icon-like" />
-                  </svg>
-                </div>
-                <div className={`${cls.trackPlay__dislike} ${cls.btnIcon}`}>
-                  <svg className={cls.trackPlay__dislikeSvg}>
-                    <use xlinkHref="/img/icon/sprite.svg#icon-dislike" />
-                  </svg>
-                </div>
+                {user ? (
+                  <div
+                    onClick={e => toggleLike(e)}
+                    className={`${cls.trackPlay__like} ${cls.btnIcon} `}
+                  >
+                    <svg
+                      className={`${cls.trackPlay__likeSvg} ${
+                        isLike ? cls._active : ""
+                      }`}
+                    >
+                      <use xlinkHref="/img/icon/sprite.svg#icon-like" />
+                    </svg>
+                  </div>
+                ) : (
+                  <div className={`${cls.trackPlay__dislike} ${cls.btnIcon}`}>
+                    <svg className={cls.trackPlay__dislikeSvg}>
+                      <use xlinkHref="/img/icon/sprite.svg#icon-dislike" />
+                    </svg>
+                  </div>
+                )}
               </div>
             </div>
           </div>

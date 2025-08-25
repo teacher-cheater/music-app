@@ -34,10 +34,6 @@ const FilterModal = ({
   const isSelected = (value: string) => {
     if (!selectedValues) return false;
 
-    console.log("isSelected", value);
-    console.log("selectedValues", selectedValues);
-    console.log("selectedValues.includes(value)", selectedValues.includes(value));
-
     return currentFilter === "году выпуска"
       ? selectedValues === value
       : selectedValues.includes(value);

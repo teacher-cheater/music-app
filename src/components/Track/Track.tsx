@@ -22,8 +22,9 @@ const Track = memo(({ track, playlist }: TrackProps) => {
   const { name, author, album, duration_in_seconds } = track;
   const currentTrack = useAppSelector(state => state.tracks.currentTrack);
   const isPlay = useAppSelector(state => state.tracks.isPlay);
-  const dispatch = useAppDispatch();
+  const user = useAppSelector(state => state.auth.username);
 
+  const dispatch = useAppDispatch();
   const { toggleLike, isLike } = useLikeTrack(track);
 
   const isCurrentTrackPlaying = currentTrack?._id === track._id && isPlay;
@@ -73,14 +74,20 @@ const Track = memo(({ track, playlist }: TrackProps) => {
             {album}
           </Link>
         </div>
-        <div className={cls.track__time}>
-          <svg onClick={(e) => toggleLike(e)} className={cls.track__timeSvg}>
-            <use
-              xlinkHref={`/img/icon/sprite.svg#${
-                isLike ? "icon-like" : "icon-dislike"
-              }`}
-            ></use>
-          </svg>
+        <div onClick={e => toggleLike(e)} className={cls.track__time}>
+          {user ? (
+            <svg
+              className={`${cls.track__timeSvg}
+              ${isLike ? cls._active : ""}
+            `}
+            >
+              <use xlinkHref="/img/icon/sprite.svg#icon-like" />
+            </svg>
+          ) : (
+            <svg className={cls.track__timeSvg}>
+              <use xlinkHref="/img/icon/sprite.svg#icon-dislike" />
+            </svg>
+          )}
           <span className={cls.track__timeText}>
             {formatDuration(duration_in_seconds)}
           </span>

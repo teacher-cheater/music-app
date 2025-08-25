@@ -4,16 +4,16 @@ import { addLikedTracks, removeLikedTracks } from "@/store/features/trackSlice";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { withReAuth } from "@/utils/withReAuth";
 import { AxiosError } from "axios";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
-type returnTypeHook = {
+interface UseLikeTrackReturn {
   isLoading: boolean;
   errorMsg: string | null;
-  toggleLike: (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => void;
+  toggleLike: (e: React.MouseEvent<HTMLElement>) => void;
   isLike: boolean;
-};
+}
 
-export const useLikeTrack = (track: TrackType | null): returnTypeHook => {
+export const useLikeTrack = (track: TrackType | null): UseLikeTrackReturn => {
   const { favoriteTracks } = useAppSelector(state => state.tracks);
   const { access, refresh } = useAppSelector(state => state.auth);
   const dispatch = useAppDispatch();
@@ -22,18 +22,26 @@ export const useLikeTrack = (track: TrackType | null): returnTypeHook => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  const toggleLike = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
-    e.stopPropagation();
-    if (!access) {
-      return setErrorMsg("Нет авторизации");
-    }
+  const toggleLike = useCallback(
+    (e: React.MouseEvent<HTMLElement>) => {
+      e.stopPropagation();
 
-    const actionApi = isLike ? removeLike : addLike;
-    const actionSlice = isLike ? removeLikedTracks : addLikedTracks;
+      if (!access) {
+        setErrorMsg("Нет авторизации");
+        return;
+      }
 
-    setIsLoading(true);
-    setErrorMsg(null);
-    if (track) {
+      if (!track) {
+        setErrorMsg("Трек не выбран");
+        return;
+      }
+
+      const actionApi = isLike ? removeLike : addLike;
+      const actionSlice = isLike ? removeLikedTracks : addLikedTracks;
+
+      setIsLoading(true);
+      setErrorMsg(null);
+
       withReAuth(
         newToken => actionApi(newToken || access, track._id),
         refresh,
@@ -42,22 +50,27 @@ export const useLikeTrack = (track: TrackType | null): returnTypeHook => {
         .then(() => {
           dispatch(actionSlice(track));
         })
-        .catch(error => {
+        .catch((error: unknown) => {
           if (error instanceof AxiosError) {
             if (error.response) {
-              setErrorMsg(error.response.data.message);
+              setErrorMsg(error.response.data.message || "Ошибка сервера");
             } else if (error.request) {
-              setErrorMsg("Произошла ошибка. Попробуйте позже");
+              setErrorMsg("Нет ответа от сервера. Попробуйте позже");
             } else {
               setErrorMsg("Неизвестная ошибка");
             }
+          } else if (error instanceof Error) {
+            setErrorMsg(error.message);
+          } else {
+            setErrorMsg("Произошла непредвиденная ошибка");
           }
         })
         .finally(() => {
           setIsLoading(false);
         });
-    }
-  };
+    },
+    [access, track, isLike, refresh, dispatch]
+  );
 
   return {
     isLoading,

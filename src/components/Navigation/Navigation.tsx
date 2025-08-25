@@ -5,15 +5,12 @@ import { useAppDispatch, useAppSelector } from "@/store/store";
 import { useState } from "react";
 import { clearUser } from "@/store/features/authSlice";
 import { useRouter } from "next/navigation";
-import { getTracks } from "@/services/tracks/tracksApi";
-import { withReAuth } from "@/utils/withReAuth";
 
 export default function Navigation() {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const username = useAppSelector(state => state.auth.username);
   const [isOpen, setIsOpen] = useState(false);
-  // const refresh = '';
 
   const toggleOpenModal = () => {
     setIsOpen(prev => !prev);
