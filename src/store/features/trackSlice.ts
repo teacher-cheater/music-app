@@ -37,6 +37,9 @@ const trackSlice = createSlice({
       state.currentPlayList = state.isShuffled
         ? [...action.payload].sort(() => Math.random() - 0.5)
         : action.payload;
+
+      state.pagePlaylist = action.payload;
+      state.allTracks = action.payload;
       state.filteredTracks = applyFilters(state);
     },
     setIsPlay: (state, action: PayloadAction<boolean>) => {
@@ -94,6 +97,7 @@ const trackSlice = createSlice({
     },
     setAllTracks: (state, action: PayloadAction<TrackType[]>) => {
       state.allTracks = action.payload;
+      state.filteredTracks = applyFilters(state);
     },
     setFavoriteTracks: (state, action: PayloadAction<TrackType[]>) => {
       state.favoriteTracks = action.payload;
@@ -154,10 +158,22 @@ const trackSlice = createSlice({
     },
     setPagePlaylist: (state, action) => {
       state.pagePlaylist = action.payload;
+      state.allTracks = action.payload;
+      state.filteredTracks = applyFilters(state);
     },
 
     setSearchQuery: (state, action: PayloadAction<string>) => {
       state.searchQuery = action.payload;
+      state.filteredTracks = applyFilters(state);
+    },
+    resetFilters: state => {
+      state.filters = {
+        name: "",
+        author: [],
+        year: "",
+        genre: [],
+      };
+      state.searchQuery = "";
       state.filteredTracks = applyFilters(state);
     },
   },
