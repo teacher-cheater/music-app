@@ -10,7 +10,6 @@ const Search = () => {
   const onSearchInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
     dispatch(setSearchQuery(e.target.value));
   };
-
   return (
     <div className={cls.centerblock__search}>
       <svg className={cls.search__svg}>

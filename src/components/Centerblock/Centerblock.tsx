@@ -5,7 +5,7 @@ import cls from "./centerblock.module.css";
 import { TrackType } from "@/sharedtypes/sharedTypes";
 import Track from "../Track/Track";
 import { useEffect } from "react";
-import { useAppDispatch } from "@/store/store";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import { setPagePlaylist } from "@/store/features/trackSlice";
 
 interface CenterblockProps {
@@ -17,19 +17,31 @@ interface CenterblockProps {
 }
 
 const Centerblock = ({
-  pagePlaylist,
   allTracks,
   isLoading,
   errorRes,
   title,
+  pagePlaylist,
 }: CenterblockProps) => {
   const dispatch = useAppDispatch();
+  const filteredTracks = useAppSelector(state => state.tracks.filteredTracks);
 
   useEffect(() => {
     if (!isLoading && !errorRes) {
       dispatch(setPagePlaylist(allTracks));
     }
   }, [isLoading, errorRes]);
+
+  const renderContent = () => {
+    if (errorRes) return <div className={cls.error}>{errorRes}</div>;
+    if (isLoading) return <div className={cls.loading}>Загрузка...</div>;
+    if (filteredTracks.length === 0)
+      return <div className={cls.empty}>Треки не найдены</div>;
+
+    return filteredTracks.map(track => (
+      <Track track={track} key={track._id} playlist={allTracks} />
+    ));
+  };
 
   return (
     <div className={cls.centerblock}>
@@ -49,15 +61,7 @@ const Centerblock = ({
             </svg>
           </div>
         </div>
-        <div className={cls.content__playlist}>
-          {errorRes
-            ? errorRes
-            : isLoading
-            ? "Загрузка..."
-            : pagePlaylist.map(track => (
-                <Track track={track} key={track._id} playlist={allTracks} />
-              ))}
-        </div>
+        <div className={cls.content__playlist}>{renderContent()}</div>
       </div>
     </div>
   );

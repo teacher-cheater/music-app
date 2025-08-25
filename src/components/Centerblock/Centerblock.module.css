@@ -88,3 +88,24 @@
     flex-direction: column;
     overflow-y: auto;
 }
+
+.message {
+    text-align: center;
+    padding: 40px;
+    font-size: 14px;
+    line-height: 24px;
+    text-transform: uppercase;
+    color: #696969;
+}
+
+.error {
+    color: #ff4d4f;
+}
+
+.loading {
+    color: #696969;
+}
+
+.empty {
+    color: #696969;
+}
