@@ -129,7 +129,6 @@ const Bar = () => {
         className={cls.bar__audio}
         ref={audioRef}
         src={currentTrack?.track_file}
-        controls
         loop={isLoop}
         onTimeUpdate={() => onTimeUpdate()}
         onLoadedMetadata={() => onLoadedMetadata()}
