@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "homepage": "https://teacher-cheater.github.io/music-app/"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
@@ -24,6 +27,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.4.4",
+    "gh-pages": "^6.3.0",
     "typescript": "^5"
   }
 }
